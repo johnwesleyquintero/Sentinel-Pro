@@ -1,132 +1,245 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentinel Pro - Advanced Workspace Management</title>
+    <title>Sentinel Pro - Premium Workspace Management & Backup</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="Assets/Branding/favicon.svg">
     <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #374151;
+        }
         .hero-gradient {
-            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            background: linear-gradient(135deg, #1a3a6e 0%, #2b3b52 100%);
         }
         .feature-card {
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e5e7eb;
         }
         .feature-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
         .download-button {
             transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
         }
         .download-button:hover {
-            transform: scale(1.05);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 12px rgba(59, 130, 246, 0.4);
+        }
+        h1, h2, h3 {
+            font-weight: 700;
+            color: #1f2937;
+        }
+        .hero-gradient h1 {
+            color: #71eeff;
+        }
+        h1, h2 {
+             letter-spacing: -0.025em;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        .text-shadow-dark {
+            text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
         }
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Hero Section -->
-    <header class="hero-gradient text-white">
-        <div class="container mx-auto px-6 py-16">
-            <div class="flex flex-col md:flex-row items-center justify-between">
-                <div class="md:w-1/2 mb-8 md:mb-0">
-                    <img src="Assets/Branding/logo.svg" alt="Sentinel Pro Logo" class="h-12 mb-6 animate__animated animate__fadeInLeft">
-                    <h1 class="text-4xl md:text-5xl font-bold mb-4 animate__animated animate__fadeInLeft">Sentinel Pro</h1>
-                    <p class="text-xl mb-8 animate__animated animate__fadeInLeft animate__delay-1s">Advanced Workspace Management & Backup Solution</p>
-                    <a href="#download" class="download-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg inline-block animate__animated animate__fadeInUp animate__delay-2s">Download Now</a>
+
+    <nav class="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center">
+                <img src="Assets/Branding/logo.svg" alt="Sentinel Pro Logo" class="h-8">
+            </a>
+            <div class="space-x-6">
+                <a href="#features" class="text-gray-600 hover:text-blue-600 transition duration-300">Features</a>
+                <a href="#testimonials" class="text-gray-600 hover:text-blue-600 transition duration-300">Testimonials</a>
+                <a href="#download" class="text-gray-600 hover:text-blue-600 transition duration-300">Download</a>
+                <a href="#download" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-lg transition duration-300 text-sm">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-gradient text-white pt-24 pb-20 md:pt-32 md:pb-28">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-12">
+                <div class="md:w-1/2 text-center md:text-left">
+                    <h1 class="text-4xl lg:text-5xl font-bold mb-5 leading-tight animate__animated animate__fadeInLeft text-shadow-dark">Elevate Your Workflow with Sentinel Pro</h1>
+                    <p class="text-xl lg:text-2xl text-blue-100 mb-10 animate__animated animate__fadeInLeft animate__delay-1s">The ultimate solution for advanced workspace management, secure backups, and performance optimization.</p>
+                    <a href="#download" class="download-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg inline-block text-lg animate__animated animate__fadeInUp animate__delay-2s">Download Now</a>
                 </div>
-                <div class="md:w-1/2 animate__animated animate__fadeInRight">
-                    <img src="Assets/Branding/hero-image.svg" alt="Sentinel Pro Interface" class="w-full rounded-lg shadow-2xl">
+                <div class="md:w-1/2 mt-10 md:mt-0 animate__animated animate__fadeInRight">
+                    <img src="Assets/Branding/hero-image.svg" alt="Sentinel Pro Interface Mockup" class="w-full rounded-lg shadow-2xl">
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Features Section -->
-    <section class="py-20 bg-white">
+    <section id="features" class="py-20 bg-white">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-16">Key Features</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="feature-card p-6 bg-gray-50 rounded-lg shadow-lg">
-                    <div class="text-blue-500 mb-4">
-                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-800">Core Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="feature-card p-8 bg-gray-50 rounded-lg shadow-sm text-center md:text-left">
+                    <div class="inline-block text-blue-600 mb-5 bg-blue-100 p-3 rounded-full">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Secure Backups</h3>
-                    <p class="text-gray-600">Enterprise-grade encryption for your workspace backups</p>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800">Secure Backups</h3>
+                    <p class="text-gray-600 leading-relaxed">Protect your critical workspace data with automated, enterprise-grade encrypted backups.</p>
                 </div>
-                <div class="feature-card p-6 bg-gray-50 rounded-lg shadow-lg">
-                    <div class="text-blue-500 mb-4">
-                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="feature-card p-8 bg-gray-50 rounded-lg shadow-sm text-center md:text-left">
+                     <div class="inline-block text-blue-600 mb-5 bg-blue-100 p-3 rounded-full">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Intelligent Monitoring</h3>
-                    <p class="text-gray-600">Real-time workspace monitoring and optimization</p>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800">Intelligent Monitoring</h3>
+                    <p class="text-gray-600 leading-relaxed">Gain insights with real-time workspace monitoring, proactive alerts, and optimization suggestions.</p>
                 </div>
-                <div class="feature-card p-6 bg-gray-50 rounded-lg shadow-lg">
-                    <div class="text-blue-500 mb-4">
-                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="feature-card p-8 bg-gray-50 rounded-lg shadow-sm text-center md:text-left">
+                     <div class="inline-block text-blue-600 mb-5 bg-blue-100 p-3 rounded-full">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Performance Boost</h3>
-                    <p class="text-gray-600">Automated optimization for maximum efficiency</p>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800">Performance Boost</h3>
+                    <p class="text-gray-600 leading-relaxed">Maximize your system's efficiency through automated cleanup and resource optimization.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Download Section -->
-    <section id="download" class="py-20 bg-gray-100">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-8">Download Sentinel Pro</h2>
-            <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
-                <div class="mb-8">
-                    <h3 class="text-xl font-semibold mb-4">System Requirements</h3>
-                    <ul class="text-left text-gray-600 mb-6 inline-block">
-                        <li class="mb-2">✓ Windows 10 or later</li>
-                        <li class="mb-2">✓ 4GB RAM minimum</li>
-                        <li class="mb-2">✓ 500MB free disk space</li>
-                        <li>✓ .NET 6.0 Runtime</li>
-                    </ul>
+    <section id="testimonials" class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-800">What Our Users Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-md border border-gray-200">
+                    <p class="text-gray-600 italic mb-6">"Sentinel Pro has revolutionized how we manage our development environments. The automated backups are a lifesaver!"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-blue-200 mr-4 flex items-center justify-center text-blue-600 font-semibold">JD</div>
+                        <div>
+                            <p class="font-semibold text-gray-800">Jane Doe</p>
+                            <p class="text-sm text-gray-500">Lead Developer, TechCorp</p>
+                        </div>
+                    </div>
                 </div>
-                <a href="publish/SentinelPro-Setup.exe" class="download-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-lg inline-flex items-center">
-                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                 <div class="bg-white p-8 rounded-lg shadow-md border border-gray-200">
+                    <p class="text-gray-600 italic mb-6">"The performance boost is noticeable. My machine runs much smoother, and the monitoring helps catch issues early."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-green-200 mr-4 flex items-center justify-center text-green-600 font-semibold">MS</div>
+                        <div>
+                            <p class="font-semibold text-gray-800">Mark Smith</p>
+                            <p class="text-sm text-gray-500">Freelance Designer</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="bg-white p-8 rounded-lg shadow-md border border-gray-200">
+                    <p class="text-gray-600 italic mb-6">"Finally, a workspace tool that understands security and efficiency. Highly recommended for any professional."</p>
+                    <div class="flex items-center">
+                         <div class="w-12 h-12 rounded-full bg-purple-200 mr-4 flex items-center justify-center text-purple-600 font-semibold">AL</div>
+                        <div>
+                            <p class="font-semibold text-gray-800">Alex Lee</p>
+                            <p class="text-sm text-gray-500">Systems Administrator, Innovate Ltd.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="py-20 bg-gradient-to-b from-white to-gray-100">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-10 text-gray-800">Get Started with Sentinel Pro Today</h2>
+            <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-xl p-10 border border-gray-200">
+                <div class="mb-10">
+                    <h3 class="text-2xl font-semibold mb-6 text-gray-800">System Requirements</h3>
+                    <ul class="text-left text-gray-600 mb-6 inline-block list-none space-y-2">
+                        <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Windows 10 or later (64-bit)</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 4GB RAM (8GB Recommended)</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 500MB free disk space</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> .NET 6.0 Runtime (Included in installer)</li>
+                    </ul>
+                     <p class="text-sm text-gray-500 mt-2">Note: .NET Runtime will be installed automatically if not present.</p>
+                </div>
+                <a href="publish/SentinelPro-Setup.exe" class="download-button bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-lg inline-flex items-center text-lg">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                     </svg>
                     Download for Windows
                 </a>
-                <p class="text-sm text-gray-500 mt-4">Version 1.0.0 | 25MB</p>
+                <p class="text-sm text-gray-500 mt-5">Version 1.0.0 | File size: ~25MB</p>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2024 Sentinel Pro. All rights reserved.</p>
+    <footer class="bg-gray-800 text-gray-300 py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0 text-center md:text-left">
+                     <a href="#" class="flex items-center justify-center md:justify-start mb-2">
+                        <img src="Assets/Branding/favicon.svg" alt="Sentinel Pro Favicon" class="h-6 mr-2 filter invert brightness-75">
+                        <span class="text-lg font-semibold text-gray-200">Sentinel Pro</span>
+                    </a>
+                    <p class="text-sm">&copy; 2024 Sentinel Pro. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-white transition duration-300 text-sm">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition duration-300 text-sm">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition duration-300 text-sm">Contact Us</a>
+                </div>
+            </div>
         </div>
     </footer>
 
     <script>
-        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                if (this.getAttribute('href') !== '#') {
+                    const targetElement = document.querySelector(this.getAttribute('href'));
+                    if (targetElement) {
+                        e.preventDefault();
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                }
             });
         });
 
-        // Download tracking
-        document.querySelector('a[href$="SentinelPro-Setup.exe"]').addEventListener('click', function() {
-            // You can add analytics tracking here
-            console.log('Download started');
+        const downloadLink = document.querySelector('a[href$="SentinelPro-Setup.exe"]');
+        if (downloadLink) {
+            downloadLink.addEventListener('click', function() {
+                console.log('Download initiated for SentinelPro-Setup.exe');
+            });
+        }
+
+        const sections = document.querySelectorAll('section');
+        const options = { threshold: 0.1 };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    entry.target.style.opacity = 1;
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+
+        sections.forEach(section => {
+            section.style.opacity = 0;
+            observer.observe(section);
         });
+
     </script>
 </body>
 </html>
