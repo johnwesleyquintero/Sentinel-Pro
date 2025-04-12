@@ -41,5 +41,15 @@ $zipPath = ".\publish\SentinelPro-$buildNumber.zip"
 Write-Host "Creating release archive: $zipPath"
 Compress-Archive -Path ".\publish\SentinelPro.exe" -DestinationPath $zipPath -Force
 
+# Copy files to wwwroot/publish for web serving
+$wwwrootPublishDir = ".\wwwroot\publish"
+if (!(Test-Path $wwwrootPublishDir)) {
+    New-Item -ItemType Directory -Force -Path $wwwrootPublishDir
+}
+
+Copy-Item ".\publish\SentinelPro.exe" -Destination "$wwwrootPublishDir\SentinelPro-Setup.exe" -Force
+Copy-Item $zipPath -Destination "$wwwrootPublishDir" -Force
+
 Write-Host "Build completed successfully!"
 Write-Host "Release package: $zipPath"
+Write-Host "Web download path: /publish/SentinelPro-Setup.exe"

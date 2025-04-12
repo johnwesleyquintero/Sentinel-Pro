@@ -51,7 +51,7 @@ namespace WorkspaceCleanup.Models
 
                 // Verify required models
                 var requiredModels = new[] { "codellama", "mistral" };
-                var missingModels = requiredModels.Where(m => 
+                var missingModels = requiredModels.Where(m =>
                     !models.Models.Any(x => x.Name.Contains(m)));
 
                 if (missingModels.Any())
@@ -176,11 +176,17 @@ namespace WorkspaceCleanup.Models
 }
 
 
+/// <summary>
+/// Represents the collection of available Ollama models.
+/// </summary>
 private class OllamaModels
 {
     public List<OllamaModel> Models { get; set; } = new();
 }
 
+/// <summary>
+/// Represents an individual Ollama model.
+/// </summary>
 private class OllamaModel
 {
     public string Name { get; set; } = string.Empty;

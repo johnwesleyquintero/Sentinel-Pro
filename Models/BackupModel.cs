@@ -3,7 +3,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Security.Cryptography;
 using Org.BouncyCastle.Crypto;
-using Serilog;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,43 +10,13 @@ using Microsoft.Extensions.Logging;
 
 namespace WorkspaceCleanup.Models
 {
-    using Microsoft.Extensions.Logging;
-    using System.IO;
-    using System.Threading.Tasks;
-    using System;
-    using System.ComponentModel;
-    using System.Collections.Generic;
-    using System.IO.Compression;
-    using System.Security.Cryptography;
-    using Org.BouncyCastle.Crypto;
-    using Serilog;
-
-    using System.ArgumentException;
-    using System.ArgumentNullException;
-    using System.IO;
-    using System.IO.Compression;
-    using System.Security.Cryptography;
-    using System.Threading.Tasks;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using Microsoft.Extensions.Logging;
-
-    using System.IO;
-    using System.IO.Compression;
-    using System.Security.Cryptography;
-    using System.Threading.Tasks;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// Handles backup creation and restoration operations with compression and encryption capabilities.
     /// </summary>
     public class BackupModel
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<BackupModel> _logger;
         private readonly string _backupDirectory;
         private readonly string _encryptionKey;
 
