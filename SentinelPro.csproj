@@ -1,4 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PublishDir>wwwroot\publish</PublishDir>
+    <OutputPath>wwwroot\publish</OutputPath>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Google.Cloud.AIPlatform.V1" Version="3.6.0" />
