@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="shield-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00E1FF"/>
+      <stop offset="100%" style="stop-color:#0097B2"/>
+    </linearGradient>
+  </defs>
+  <path d="M128 16L32 64v80c0 70.7 43.1 136.3 96 161.9 52.9-25.6 96-91.2 96-161.9V64L128 16z" fill="url(#shield-gradient)" opacity="0.3"/>
+  <path d="M128 16L32 64v80c0 70.7 43.1 136.3 96 161.9 52.9-25.6 96-91.2 96-161.9V64L128 16z" fill="none" stroke="url(#shield-gradient)" stroke-width="8" stroke-dasharray="628" stroke-dashoffset="157">
+    <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 128 128" to="360 128 128" dur="2s" repeatCount="indefinite"/>
+  </path>
+</svg>

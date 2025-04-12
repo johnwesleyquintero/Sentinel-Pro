@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="error-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF4747"/>
+      <stop offset="100%" style="stop-color:#CC3939"/>
+    </linearGradient>
+  </defs>
+  <path d="M128 16L32 64v80c0 70.7 43.1 136.3 96 161.9 52.9-25.6 96-91.2 96-161.9V64L128 16z" fill="url(#error-gradient)"/>
+  <path d="M88 88l80 80M168 88l-80 80" stroke="#F5F5F5" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>
