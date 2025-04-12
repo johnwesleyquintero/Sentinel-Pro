@@ -1,27 +1,45 @@
-# Build script for WorkspaceCleanup
+# Build script for Sentinel Pro
+
+# Set version
+$version = "1.0.0"
+$buildDate = Get-Date -Format "yyyyMMdd"
+$buildNumber = "$version-$buildDate"
 
 # Clean previous builds
+Write-Host "Cleaning previous builds..."
 dotnet clean
 
 # Restore NuGet packages
-dotnet restore .\WorkspaceCleanup.Tests\SentinelPro.Tests.csproj
+Write-Host "Restoring packages..."
+dotnet restore
 
 # Build solution with Release configuration
-dotnet build --configuration Release
+Write-Host "Building solution..."
+dotnet build --configuration Release /p:Version=$version
 
 # Run automated tests
-dotnet test .\WorkspaceCleanup.Tests\SentinelPro.Tests.csproj --no-restore
+Write-Host "Running tests..."
+dotnet test --no-restore --configuration Release
 
-# Publish executable for Windows with production settings
-dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=false -o .\publish
-
-# Display success message
-Write-Host "Build completed successfully! Output in .\publish directory"
-
-# Add security scanning
+# Security scan
 Write-Host "Running security scan..."
 dotnet list package --vulnerable
 
-# Run performance profiling
-Write-Host "Running performance profiling..."
-dotnet counters monitor --process-id $PID --counters System.Runtime
+# Publish executable for Windows with production settings
+Write-Host "Creating release build..."
+dotnet publish SentinelPro.csproj -c Release -r win-x64 `
+    --self-contained true `
+    -p:PublishSingleFile=true `
+    -p:PublishTrimmed=false `
+    -p:Version=$version `
+    -p:FileVersion=$version `
+    -p:AssemblyVersion=$version `
+    -o .\publish
+
+# Create ZIP archive
+$zipPath = ".\publish\SentinelPro-$buildNumber.zip"
+Write-Host "Creating release archive: $zipPath"
+Compress-Archive -Path ".\publish\SentinelPro.exe" -DestinationPath $zipPath -Force
+
+Write-Host "Build completed successfully!"
+Write-Host "Release package: $zipPath"

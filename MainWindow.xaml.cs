@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Win32;
 using WorkspaceCleanup.Services;
+using System.ComponentModel;
 
 namespace WorkspaceCleanup
 {

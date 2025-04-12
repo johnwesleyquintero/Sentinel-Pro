@@ -1,5 +1,7 @@
+using System;
 using System.Windows;
 using WorkspaceCleanup.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace SentinelPro
 {
