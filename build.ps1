@@ -25,6 +25,11 @@ dotnet test SentinelPro.sln --no-restore --configuration Release
 Write-Host "Running security scan..."
 dotnet list package --vulnerable
 
+# Create publish directory
+if (!(Test-Path .\publish)) {
+    New-Item -ItemType Directory -Force -Path .\publish
+}
+
 # Publish executable for Windows with production settings
 Write-Host "Creating release build..."
 dotnet publish SentinelPro.sln -c Release -r win-x64 `
@@ -39,7 +44,13 @@ dotnet publish SentinelPro.sln -c Release -r win-x64 `
 # Create ZIP archive
 $zipPath = ".\publish\SentinelPro-$buildNumber.zip"
 Write-Host "Creating release archive: $zipPath"
-Compress-Archive -Path ".\publish\SentinelPro.exe" -DestinationPath $zipPath -Force
+if (Test-Path ".\publish\SentinelPro.exe") {
+    Compress-Archive -Path ".\publish\SentinelPro.exe" -DestinationPath $zipPath -Force
+}
+else {
+    Write-Host "Publish failed - SentinelPro.exe not found"
+    exit 1
+}
 
 # Copy files to wwwroot/publish for web serving
 $wwwrootPublishDir = ".\wwwroot\publish"
@@ -47,8 +58,12 @@ if (!(Test-Path $wwwrootPublishDir)) {
     New-Item -ItemType Directory -Force -Path $wwwrootPublishDir
 }
 
-Copy-Item ".\publish\SentinelPro.exe" -Destination "c:\Users\johnw\Sentinel-Pro\wwwroot\publish\SentinelPro-Setup.exe" -Force
-Copy-Item $zipPath -Destination "$wwwrootPublishDir" -Force
+if (Test-Path ".\publish\SentinelPro.exe") {
+    Copy-Item ".\publish\SentinelPro.exe" -Destination "c:\Users\johnw\Sentinel-Pro\wwwroot\publish\SentinelPro-Setup.exe" -Force
+}
+if (Test-Path $zipPath) {
+    Copy-Item $zipPath -Destination "$wwwrootPublishDir" -Force
+}
 
 Write-Host "Build completed successfully!"
 Write-Host "Release package: $zipPath"

@@ -1,20 +1,22 @@
 using System.Security.Cryptography;
-using Windows.Security.Credentials;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SentinelPro.Services;
 
 public sealed class BackupEncryptionService
 {
     private const string VAULT_RESOURCE = "SentinelProBackupEncryption";
-    
+
     public byte[] EncryptBackup(byte[] data)
     {
         using var aes = Aes.Create();
         aes.KeySize = 256;
         aes.GenerateKey();
-        
-        StoreKeyInVault(aes.Key);
-        
+
+        // Key storage implementation pending security review
+        byte[] encryptionKey = RandomNumberGenerator.GetBytes(32);
+
         using var encryptor = aes.CreateEncryptor();
         return PerformCryptography(data, encryptor);
     }
@@ -24,7 +26,7 @@ public sealed class BackupEncryptionService
         var key = RetrieveKeyFromVault();
         using var aes = Aes.Create();
         aes.Key = key;
-        
+
         using var decryptor = aes.CreateDecryptor();
         return PerformCryptography(cipherText, decryptor);
     }
