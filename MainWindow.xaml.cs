@@ -1,7 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using SentinelPro.Views;
 
 namespace SentinelPro
 {
@@ -34,21 +33,8 @@ namespace SentinelPro
         private void NavigateToPage(string pageName)
         {
             // Consider using a more robust mapping (e.g., Dictionary<string, Type>)
-            // or resolving pages via DI if they have complex dependencies.
-            Page page = pageName switch
-            {
-                "Home" => new Views.HomePage(),
-                // "Settings" should not be navigated to within the Frame.
-                // It's a separate Window, opened via a different UI element (e.g., Menu).
-                // If a settings *page* is desired, create SettingsPage : Page/UserControl.
-                _ => new Views.HomePage() // Default to Home
-            };
-
-            if (ContentFrame.Content?.GetType() != page.GetType()) // Avoid redundant navigation
-            {
-                 ContentFrame.Navigate(page);
-                 // Optionally update ViewModel state if needed (e.g., _viewModel.CurrentPage = pageName;)
-            }
+            // Navigation functionality will be implemented later
+            // Currently just showing the welcome message in main content area
         }
 
         // Note: The SettingsWindow is likely opened from a Menu or Button defined in MainWindow.xaml

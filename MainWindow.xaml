@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.modernwpf.com/2019"
-        Title="C# Design Pro" Height="600" Width="1000"
+        Title="Sentinel Pro" Height="600" Width="1000"
         ui:WindowHelper.UseModernWindowStyle="True"
         Background="#1E1E1E">
     <Grid>
@@ -14,35 +14,26 @@
         <!-- Left Navigation Panel -->
         <Grid Grid.Column="0" Background="#252526">
             <StackPanel>
-                <TextBlock Text="C# Design Pro" 
-                           Margin="20,20,0,20"
+                <Image Source="Assets/Branding/logo.svg" 
+                       Height="40" 
+                       Margin="20,20,20,10"
+                       HorizontalAlignment="Left"/>
+                <TextBlock Text="Sentinel Pro" 
+                           Margin="20,0,0,20"
                            FontSize="24"
                            Foreground="White"/>
-                <TextBlock Text="Design the Interface"
-                           Margin="20,0,0,30"
-                           Foreground="#6E6E6E"
-                           FontSize="14"/>
 
                 <!-- Navigation Items -->
                 <RadioButton Style="{StaticResource NavigationButtonStyle}" 
                              Content="Home"
-                             Tag="🏠"
+                             Tag="Assets/Icons/Navigation/home.svg"
                              IsChecked="True"/>
                 <RadioButton Style="{StaticResource NavigationButtonStyle}" 
-                             Content="Projects"
-                             Tag="📋"
-                             IsEnabled="False"/>
-                <RadioButton Style="{StaticResource NavigationButtonStyle}" 
-                             Content="AI Assistant"
-                             Tag="🤖"
-                             IsEnabled="False"/>
-                <RadioButton Style="{StaticResource NavigationButtonStyle}" 
-                             Content="PC Management"
-                             Tag="⚙️"
-                             IsEnabled="False"/>
+                             Content="Workspaces"
+                             Tag="Assets/Icons/Navigation/user.svg"/>
                 <RadioButton Style="{StaticResource NavigationButtonStyle}" 
                              Content="Settings"
-                             Tag="⚙️"/>
+                             Tag="Assets/Icons/Navigation/help.svg"/>
             </StackPanel>
         </Grid>
 
@@ -54,16 +45,17 @@
             </Grid.RowDefinitions>
 
             <!-- Content Header -->
-            <TextBlock Text="Welcome Back!"
+            <TextBlock Text="Welcome to Sentinel Pro"
                        FontSize="32"
                        FontWeight="SemiBold"
                        Foreground="White"
                        Margin="0,0,0,20"/>
 
             <!-- Content Area -->
-            <Frame x:Name="ContentFrame" 
-                   Grid.Row="1" 
-                   NavigationUIVisibility="Hidden"/>
+            <TextBlock Grid.Row="1" 
+                       Text="Your workspace guardian is ready to protect your work."
+                       Foreground="#6E6E6E"
+                       FontSize="16"/>
         </Grid>
     </Grid>
 
@@ -77,10 +69,10 @@
                                 <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
-                                       FontSize="16"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"/>
+                            <Image Source="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Width="20" Height="20"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
                             <TextBlock Grid.Column="1"
                                        Text="{TemplateBinding Content}"
                                        VerticalAlignment="Center"
@@ -100,9 +92,6 @@
                                 <Setter Property="Background" Value="#3E3E42"/>
                                 <Setter Property="Foreground" Value="White"/>
                                 <Setter TargetName="SelectionIndicator" Property="Opacity" Value="1"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" Value="0.5"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

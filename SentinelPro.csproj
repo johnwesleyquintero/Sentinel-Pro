@@ -11,30 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ModernWpfUI" Version="0.9.6" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Models\**" />
-    <Compile Remove="Services\**" />
-    <Compile Remove="ViewModels\**" />
-    <EmbeddedResource Remove="Models\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <EmbeddedResource Remove="ViewModels\**" />
-    <None Remove="Models\**" />
-    <None Remove="Services\**" />
-    <None Remove="ViewModels\**" />
-    <Page Remove="RuleEditDialog.xaml" />
-    <Page Remove="SettingsWindow.xaml" />
+    <PackageReference Include="ModernWpf" Version="0.9.6" />
   </ItemGroup>
 
   <ItemGroup>
     <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views/HomePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
