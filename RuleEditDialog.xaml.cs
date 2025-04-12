@@ -1,60 +1,69 @@
 using System.Windows;
-using Microsoft.Win32;
+using System.Windows.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using SentinelPro.Models;
+using SentinelPro.ViewModels;
 
 namespace SentinelPro
 {
-    public partial class RuleEditDialog : Window
+    public partial class RuleEditDialog : Page
     {
-        private readonly WorkspaceRule _rule;
+        private readonly WorkspaceRule _originalRule;
+        public WorkspaceRule Rule { get; private set; }
 
-        public RuleEditDialog(WorkspaceRule rule)
+        public RuleEditDialog(WorkspaceRule rule = null)
         {
             InitializeComponent();
-            _rule = rule;
-            LoadRuleToUI();
+            _originalRule = rule;
+            Rule = rule?.Clone() ?? new WorkspaceRule();
+            DataContext = Rule;
+
+            // Set default values for new rules
+            if (rule == null)
+            {
+                Rule.IsEnabled = true;
+                Rule.RetentionDays = 30;
+            }
         }
 
-        private void LoadRuleToUI()
-        {
-            PathTextBox.Text = _rule.Path;
-            PatternTextBox.Text = _rule.Pattern;
-            IncludeSubdirectoriesCheckBox.IsChecked = _rule.IncludeSubdirectories;
-            ActionComboBox.SelectedIndex = (int)_rule.Action;
-        }
+
 
         private void BrowsePath_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new OpenFolderDialog
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                Title = "Select Path",
-                InitialDirectory = PathTextBox.Text
-            };
-
-            if (dialog.ShowDialog() == true)
-            {
-                PathTextBox.Text = dialog.FolderName;
+                Rule.Path = dialog.SelectedPath;
             }
         }
 
-        private void SaveRule_Click(object sender, RoutedEventArgs e)
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(PathTextBox.Text))
+            if (ValidateRule())
             {
-                MessageBox.Show("Path is required", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                DialogResult = true;
+                Close();
             }
-
-            _rule.Path = PathTextBox.Text;
-            _rule.Pattern = PatternTextBox.Text;
-            _rule.IncludeSubdirectories = IncludeSubdirectoriesCheckBox.IsChecked ?? true;
-            _rule.Action = (CleanupAction)ActionComboBox.SelectedIndex;
-
-            DialogResult = true;
-            Close();
         }
 
-        private void CancelRule_Click(object sender, RoutedEventArgs e)
+        private bool ValidateRule()
+        {
+            if (string.IsNullOrWhiteSpace(Rule.Path))
+            {
+                MessageBox.Show("Please select a valid path.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            if (Rule.RetentionDays <= 0)
+            {
+                MessageBox.Show("Retention days must be greater than 0.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
             Close();
