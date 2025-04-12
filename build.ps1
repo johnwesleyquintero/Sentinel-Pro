@@ -34,6 +34,7 @@ Write-Host "Creating release build..."
 dotnet publish SentinelPro.csproj -c Release -r win-x64 `
     --self-contained true `
     -p:PublishSingleFile=true `
+    -p:AssemblyName=SentinelPro-Setup `
     -p:PublishTrimmed=false `
     -p:IncludeNativeLibrariesForSelfExtract=false `
     -p:Version=$version `
@@ -44,8 +45,8 @@ dotnet publish SentinelPro.csproj -c Release -r win-x64 `
 # Create ZIP archive
 $zipPath = ".\publish\SentinelPro-$buildNumber.zip"
 Write-Host "Creating release archive: $zipPath"
-if (Test-Path ".\publish\SentinelPro.exe") {
-    Compress-Archive -Path ".\publish\SentinelPro.exe" -DestinationPath $zipPath -Force
+if (Test-Path ".\publish\SentinelPro-Setup.exe") {
+    Compress-Archive -Path ".\publish\SentinelPro-Setup.exe" -DestinationPath $zipPath -Force
 }
 else {
     Write-Host "Publish failed - Missing build output. Check CsWinRT configuration in project file"
