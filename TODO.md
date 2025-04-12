@@ -6,6 +6,24 @@
 - [x] Add tests
 
 ## 1.1.0
+
+- [ ] High priority: 🛠️ **Fix Issues and Implement Enhancements**
+
+I need your assistance in addressing errors and implementing improvements based on your suggestions. Below is the task list:
+
+**TASK LIST:**
+
+1. **Codebase Cleanup:**
+   - Remove old references from `WorkspaceCleanup` to `SentinelPro` across the entire codebase.
+   - Delete outdated files and perform a thorough cleanup of the codebase.
+   - Alternatively, reset all configurations to `SentinelPro` for better clarity and organization.
+
+2. **GitHub Pipeline Setup:**
+   - Configure a GitHub pipeline to automate the build process.
+   - Ensure the pipeline releases the build to `/wwwroot/publish/SentinelPro-Setup.exe`.
+
+---
+
 - [ ] Integrate Gemini API
 - [ ] Clean up unused Ollama-related code
 - [ ] Update documentation for new features
