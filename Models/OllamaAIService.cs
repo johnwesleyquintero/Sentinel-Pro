@@ -23,9 +23,8 @@ namespace WorkspaceCleanup.Models
         /// <summary>
         /// Initializes a new instance of the OllamaAIService.
         /// </summary>
-        /// <param name="httpClient">The HTTP client for making requests to Ollama API.</param>
+        /// <param name="httpClientFactory">The HTTP client factory for making requests to Ollama API.</param>
         /// <param name="configuration">The configuration containing Ollama settings.</param>
-        /// <param name="logger">The logger for recording operational events.</param>
         public OllamaAIService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
@@ -179,7 +178,7 @@ namespace WorkspaceCleanup.Models
 /// <summary>
 /// Represents the collection of available Ollama models.
 /// </summary>
-private class OllamaModels
+public class OllamaModels
 {
     public List<OllamaModel> Models { get; set; } = new();
 }
@@ -187,7 +186,7 @@ private class OllamaModels
 /// <summary>
 /// Represents an individual Ollama model.
 /// </summary>
-private class OllamaModel
+public class OllamaModel
 {
     public string Name { get; set; } = string.Empty;
 }

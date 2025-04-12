@@ -4,13 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using Serilog;
-using NUnit.Framework;
+using Xunit;
 using WorkspaceCleanup.Models;
 
 namespace WorkspaceCleanup.Tests
 {
-    [TestFixture]
-    internal class AIServiceTests
+    public class AIServiceTests
     {
         private readonly Mock<ILogger> _loggerMock;
         private readonly Mock<IConfiguration> _configMock;
@@ -22,20 +21,23 @@ namespace WorkspaceCleanup.Tests
             _loggerMock = new Mock<ILogger>();
             _configMock = new Mock<IConfiguration>();
             _httpClientMock = new Mock<HttpClient>();
-            
+
             _configMock.Setup(c => c["AI:BaseUrl"]).Returns("http://localhost:11434");
             _configMock.Setup(c => c["AI:Model"]).Returns("codellama");
-            
-            _aiService = new OllamaAIService(_loggerMock.Object, _configMock.Object, _httpClientMock.Object);
+
+            var httpClientFactory = new Mock<IHttpClientFactory>();
+            httpClientFactory.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(_httpClientMock.Object);
+
+            _aiService = new OllamaAIService(httpClientFactory.Object, _configMock.Object)
         }
 
-        [Test]
+        [Fact]
         public async Task GetCodeCompletion_WithValidInput_ReturnsCompletion()
         {
             // Arrange
-            var codeContext = "public class Example { public void Test() {"; 
+            var codeContext = "public class Example { public void Test() {";
             var expectedCompletion = @"    Console.WriteLine(""Hello World"");
-}}"; 
+}}";
 
             _httpClientMock.Setup(client => client
                 .SendAsync(It.IsAny<HttpRequestMessage>()))
@@ -50,7 +52,6 @@ namespace WorkspaceCleanup.Tests
 
             // Assert
             Assert.Equal(expectedCompletion, result);
-            _loggerMock.Verify(x => x.Information(It.IsAny<string>()), Times.Once);
         }
 
         [Test]
@@ -84,7 +85,7 @@ namespace WorkspaceCleanup.Tests
             // Act & Assert
             var exception = await Assert.ThrowsAsync<ArgumentException>(
                 () => _aiService.GetCodeCompletionAsync(invalidInput));
-            
+
             Assert.Contains("Code context cannot be null or empty", exception.Message);
             _loggerMock.Verify(x => x.Error(It.IsAny<string>()), Times.Once);
         }
@@ -135,7 +136,7 @@ namespace WorkspaceCleanup.Tests
             _loggerMock.Verify(x => x.Information(It.IsAny<string>()), Times.Once);
         }
         string testQuery = "This is a properly closed string";
-        public void TestMethod() 
+        public void TestMethod()
         {
             // Properly enclosed method body
         }
@@ -144,9 +145,9 @@ namespace WorkspaceCleanup.Tests
         public async Task AnalyzeBackupPatternsAsync_ReturnsValidAnalysis()
         {
             // Arrange
-            var codeContext = "public class Example { public void Test() {"; 
+            var codeContext = "public class Example { public void Test() {";
             var expectedCompletion = @"    Console.WriteLine(""Hello World"");
-}}"; 
+}}";
 
             _httpClientMock.Setup(client => client
                 .SendAsync(It.IsAny<HttpRequestMessage>()))
@@ -213,7 +214,7 @@ namespace WorkspaceCleanup.Tests
         [Test]
         public void GetCodeCompletion_WithEmptyCode_ThrowsValidationException()
         {
-            Assert.ThrowsAsync<ValidationException>(() => 
+            Assert.ThrowsAsync<ValidationException>(() =>
                 _aiService.GetCodeCompletionAsync(string.Empty));
         }
 
@@ -250,9 +251,9 @@ namespace WorkspaceCleanup.Tests
         public async Task AnalyzeBackupPatternsAsync_ReturnsValidAnalysis()
         {
             // Arrange
-            var codeContext = "public class Example { public void Test() {"; 
+            var codeContext = "public class Example { public void Test() {";
             var expectedCompletion = @"    Console.WriteLine(""Hello World"");
-}}"; 
+}}";
 
             _httpClientMock.Setup(client => client
                 .SendAsync(It.IsAny<HttpRequestMessage>()))
