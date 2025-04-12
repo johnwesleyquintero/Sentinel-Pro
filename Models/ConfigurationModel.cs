@@ -11,7 +11,7 @@ public class ConfigurationModel
 
 public class GeminiSettings
 {
-    public string ProjectId { get; set; } = "your-project-id";
-    public string LocationId { get; set; } = "us-central1";
-    public string ModelName { get; set; } = "gemini-pro";
+    public string ProjectId { get; set; } = Environment.GetEnvironmentVariable("GOOGLE_CLOUD_PROJECT_ID");
+    public string LocationId { get; set; } = "us-central1"; // Default remains valid
+    public string ModelName { get; set; } = "gemini-pro"; // Default remains valid
 }

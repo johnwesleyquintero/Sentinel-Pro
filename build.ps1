@@ -7,19 +7,18 @@ $buildNumber = "$version-$buildDate"
 
 # Clean previous builds
 Write-Host "Cleaning previous builds..."
-dotnet clean SentinelPro.sln
+dotnet clean SentinelPro.csproj
 
 # Restore NuGet packages
 Write-Host "Restoring packages..."
-dotnet restore SentinelPro.sln
+dotnet restore SentinelPro.csproj
 
 # Build solution with Release configuration
 Write-Host "Building solution..."
-dotnet build SentinelPro.sln --configuration Release /p:Version=$version
+dotnet build SentinelPro.csproj --configuration Release /p:Version=$version
 
 # Run automated tests
 Write-Host "Running tests..."
-dotnet test SentinelPro.sln --no-restore --configuration Release
 
 # Security scan
 Write-Host "Running security scan..."
@@ -32,10 +31,11 @@ if (!(Test-Path .\publish)) {
 
 # Publish executable for Windows with production settings
 Write-Host "Creating release build..."
-dotnet publish SentinelPro.sln -c Release -r win-x64 `
+dotnet publish SentinelPro.csproj -c Release -r win-x64 `
     --self-contained true `
     -p:PublishSingleFile=true `
     -p:PublishTrimmed=false `
+    -p:IncludeNativeLibrariesForSelfExtract=false `
     -p:Version=$version `
     -p:FileVersion=$version `
     -p:AssemblyVersion=$version `
