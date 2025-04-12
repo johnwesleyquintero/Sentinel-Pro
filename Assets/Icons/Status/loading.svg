@@ -5,8 +5,33 @@
       <stop offset="100%" style="stop-color:#0097B2"/>
     </linearGradient>
   </defs>
-  <path d="M128 16L32 64v80c0 70.7 43.1 136.3 96 161.9 52.9-25.6 96-91.2 96-161.9V64L128 16z" fill="url(#shield-gradient)" opacity="0.3"/>
-  <path d="M128 16L32 64v80c0 70.7 43.1 136.3 96 161.9 52.9-25.6 96-91.2 96-161.9V64L128 16z" fill="none" stroke="url(#shield-gradient)" stroke-width="8" stroke-dasharray="628" stroke-dashoffset="157">
-    <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 128 128" to="360 128 128" dur="2s" repeatCount="indefinite"/>
-  </path>
+
+  <!-- Group to scale the entire icon -->
+  <!-- Scales the content to 90% around the center (128, 128) -->
+  <g transform="translate(128 128) scale(0.9) translate(-128 -128)">
+
+    <!-- Background Shield - Using the adjusted path data -->
+    <path d="M128 16 
+             L32 64 
+             v80 
+             C 32 192, 80 240, 128 240 
+             C 176 240, 224 192, 224 144 
+             V64 
+             L128 16 z" 
+          fill="url(#shield-gradient)" opacity="0.3"/>
+
+    <!-- Animated Stroke Shield - Using the adjusted path data -->
+    <!-- Stroke width, dasharray, dashoffset adjusted -->
+    <path d="M128 16 
+             L32 64 
+             v80 
+             C 32 192, 80 240, 128 240 
+             C 176 240, 224 192, 224 144 
+             V64 
+             L128 16 z" 
+          fill="none" stroke="url(#shield-gradient)" stroke-width="8.89" stroke-dasharray="580" stroke-dashoffset="145">
+      <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 128 128" to="360 128 128" dur="2s" repeatCount="indefinite"/>
+    </path>
+
+  </g>
 </svg>

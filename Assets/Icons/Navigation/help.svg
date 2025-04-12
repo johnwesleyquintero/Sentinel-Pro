@@ -5,6 +5,25 @@
       <stop offset="100%" style="stop-color:#0097B2"/>
     </linearGradient>
   </defs>
-  <path d="M128 16L32 64v80c0 70.7 43.1 136.3 96 161.9 52.9-25.6 96-91.2 96-161.9V64L128 16z" fill="url(#shield-gradient)"/>
-  <path d="M128 84c-17.7 0-32 14.3-32 32h16c0-8.8 7.2-16 16-16s16 7.2 16 16c0 16-24 24-24 48h16c0-16 24-24 24-48 0-17.7-14.3-32-32-32zM128 172v16" stroke="#F5F5F5" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Group to scale the entire icon -->
+  <!-- Scales the content to 90% around the center (128, 128) -->
+  <g transform="translate(128 128) scale(0.9) translate(-128 -128)">
+
+    <!-- Main Shield - Using the adjusted path data that fits before scaling -->
+    <path d="M128 16 
+             L32 64 
+             v80 
+             C 32 192, 80 240, 128 240 
+             C 176 240, 224 192, 224 144 
+             V64 
+             L128 16 z" 
+          fill="url(#shield-gradient)"/>
+
+    <!-- Simplified Question Mark Path -->
+    <!-- Stroke width increased (16 / 0.9 ≈ 17.78) to compensate for scaling -->
+    <path d="M 108 105 A 20 20 0 1 1 148 105 L 128 105 L 128 155 M 128 170 v 10" 
+          stroke="#F5F5F5" stroke-width="17.78" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  </g>
 </svg>
