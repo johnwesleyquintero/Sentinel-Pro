@@ -1,12 +1,22 @@
-# SENTINEL PRO ROADMAP
+# SENTINEL PRO ROADMAP - PROJECT MANAGEMENT - MILESTONE TRACKING
 
 ## 1.0.0
-- [x] Add basic functionality
-- [x] Add documentation
-- [x] Add tests
 
-## 1.1.0
+**FYI:**
 
+1. We have a landing page at wwwroot\index.html this serves as our landing page where users can download our releases and therefore, we should keep this directory `wwwroot` and dont't delete `netlify.toml` as they host our landing page.
+
+2. Don't delete this `TODO.md` too because how would we track our development progress if we dont have this?
+
+---
+
+
+- [ ] Add basic functionality
+- [ ] Add documentation
+- [ ] Add tests
+- [ ] Add logging
+- [ ] Add configuration
+- [ ] Add error handling
 - [ ] High priority: 🛠️ **Fix Issues and Implement Enhancements**
 
 I need your assistance in addressing errors and implementing improvements based on your suggestions. Below is the task list:

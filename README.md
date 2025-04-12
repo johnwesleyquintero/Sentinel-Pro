@@ -1,5 +1,7 @@
 # Sentinel Pro 🛡️
 
+**PLEASE READ `TODO.md`.**
+
 > **Your Ultimate Workspace Guardian, Now with AI-Powered Assistance**
 
 Sentinel Pro is a powerful WPF application designed to safeguard your valuable work by managing workspace backups and restorations with ease. But we're taking it further! Sentinel Pro now integrates **Sentinel AI** 🤖, a cutting-edge, locally-run AI assistant that enhances your workflow with intelligent code assistance, backup management, and more. This comprehensive tool allows you to create, manage, restore, and maintain workspace backups efficiently. With its intuitive user interface and advanced AI features, Sentinel Pro ensures that your projects are always protected, recoverable, and optimized.
