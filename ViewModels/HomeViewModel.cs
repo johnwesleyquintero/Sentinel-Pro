@@ -1,5 +1,7 @@
 using System.Windows.Input;
-using WorkspaceCleanup.Models;
+using System.Windows;
+using SentinelPro.Models;
+using SentinelPro.Services;
 
 namespace WorkspaceCleanup.ViewModels
 {
@@ -26,7 +28,7 @@ namespace WorkspaceCleanup.ViewModels
         public HomeViewModel(IAIService aiService)
         {
             _aiService = aiService;
-            AskAICommand = new RelayCommand(async param => await AskAI(param as string), 
+            AskAICommand = new RelayCommand(async param => await AskAI(param as string),
                 param => !IsProcessing && !string.IsNullOrWhiteSpace(param as string));
         }
 

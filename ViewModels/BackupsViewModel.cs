@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using WorkspaceCleanup.Models;
-using WorkspaceCleanup.Services;
+using System.Windows;
+using SentinelPro.Models;
+using SentinelPro.Services;
 
 namespace WorkspaceCleanup.ViewModels
 {

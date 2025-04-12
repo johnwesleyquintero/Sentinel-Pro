@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using WorkspaceCleanup.Models;
+using SentinelPro.Models;
+using SentinelPro.Services;
 
 namespace SentinelPro.Services
 {

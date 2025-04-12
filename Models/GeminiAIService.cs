@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.AIPlatform.V1;
+using Google.Cloud.Gemini.V1;
+using Google.Api.Gax.Grpc;
 
 namespace SentinelPro.Models
 {

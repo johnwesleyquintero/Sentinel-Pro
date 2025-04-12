@@ -1,6 +1,6 @@
 using System.Windows;
-using Microsoft.Win32;
-using WorkspaceCleanup.Models;
+using System.Windows.Controls;
+using SentinelPro.Models;
 
 namespace WorkspaceCleanup
 {
@@ -54,7 +54,7 @@ namespace WorkspaceCleanup
         {
             var rule = new WorkspaceRule();
             var dialog = new RuleEditDialog(rule);
-            
+
             if (dialog.ShowDialog() == true)
             {
                 _configuration.WorkspaceRules.Add(rule);
