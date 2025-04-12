@@ -13,8 +13,8 @@ namespace WorkspaceCleanup.ViewModels
     {
         private readonly ConfigurationModel _configuration;
         private readonly BackupModel _backupModel;
-        private readonly NotificationService _notificationService;
-        private readonly LoggingService _logService;
+        private readonly INotificationService _notificationService;
+        private readonly ILoggingService _logService;
         private ObservableCollection<string> _backupHistory;
         private bool _isBackupInProgress;
 
@@ -33,7 +33,7 @@ namespace WorkspaceCleanup.ViewModels
         public ICommand CreateBackupCommand { get; }
         public ICommand RestoreBackupCommand { get; }
 
-        public BackupsViewModel(ConfigurationModel configuration, BackupModel backupModel, NotificationService notificationService, LoggingService logService)
+        public BackupsViewModel(ConfigurationModel configuration, BackupModel backupModel, INotificationService notificationService, ILoggingService logService)
         {
             _configuration = configuration;
             _backupModel = backupModel;

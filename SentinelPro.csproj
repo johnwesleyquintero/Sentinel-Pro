@@ -36,8 +36,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Serilog" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-    <PackageReference Include="Google.Cloud.AIPlatform.V1" Version="3.6.0" />
-  <PackageReference Include="Google.Cloud.Gemini.V1" Version="1.0.0-beta01" />
-</ItemGroup>
+  </ItemGroup>
 
 </Project>
