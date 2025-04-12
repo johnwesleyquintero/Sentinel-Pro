@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.IO;
 using System.Text.Json;
 
-namespace WorkspaceCleanup.Views
+namespace SentinelPro.Views
 {
     /// <summary>
     /// Page for managing and restoring workspace backups.
@@ -22,13 +22,13 @@ namespace WorkspaceCleanup.Views
         public BackupsPage()
         {
             InitializeComponent();
-            
+
             _backupDir = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                 "__cleanup_backups__");
             _rollbackFile = Path.Combine(_backupDir, "rollback_info.json");
             _backups = new ObservableCollection<BackupItem>();
-            
+
             BackupsList.ItemsSource = _backups;
             InitializeEventHandlers();
             LoadBackups();
@@ -61,7 +61,7 @@ namespace WorkspaceCleanup.Views
 
                 var jsonContent = await File.ReadAllTextAsync(_rollbackFile);
                 var backupItems = JsonSerializer.Deserialize<List<BackupItem>>(jsonContent);
-                
+
                 foreach (var item in backupItems)
                 {
                     _backups.Add(item);

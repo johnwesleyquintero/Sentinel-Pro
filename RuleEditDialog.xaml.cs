@@ -1,8 +1,8 @@
 using System.Windows;
 using Microsoft.Win32;
-using WorkspaceCleanup.Models;
+using SentinelPro.Models;
 
-namespace WorkspaceCleanup
+namespace SentinelPro
 {
     public partial class RuleEditDialog : Window
     {

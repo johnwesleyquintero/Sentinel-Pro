@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.Configuration;
 
-namespace WorkspaceCleanup.Services
+namespace SentinelPro.Services
 {
     /// <summary>
     /// Service responsible for monitoring application performance metrics including CPU and RAM usage.
@@ -41,11 +41,11 @@ namespace WorkspaceCleanup.Services
             {
                 var performanceThreshold = _configuration.GetValue<double>("PerformanceThreshold", 80.0);
                 var memoryThreshold = _configuration.GetValue<double>("MemoryThreshold", 1024);
-                
+
                 StartPerformanceMonitoring(performanceThreshold);
                 StartMemoryMonitoring(memoryThreshold);
                 TrackOperationLatency();
-                Log.Information("Performance monitoring initialized with thresholds: CPU {CpuThreshold}%, Memory {MemThreshold}MB", 
+                Log.Information("Performance monitoring initialized with thresholds: CPU {CpuThreshold}%, Memory {MemThreshold}MB",
                     performanceThreshold, memoryThreshold);
             }
             catch (Exception ex)
@@ -58,9 +58,9 @@ namespace WorkspaceCleanup.Services
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            
+
             // Track latency for critical operations
-            AppDomain.CurrentDomain.FirstChanceException += (sender, e) => 
+            AppDomain.CurrentDomain.FirstChanceException += (sender, e) =>
                 Log.Debug("Operation latency: {Latency}ms", stopwatch.ElapsedMilliseconds);
         }
 
@@ -132,10 +132,10 @@ namespace WorkspaceCleanup.Services
         {
             if (_disposed) return;
             _disposed = true;
-            
+
             _cpuCounter?.Dispose();
             _ramCounter?.Dispose();
-            
+
             GC.SuppressFinalize(this);
         }
     }

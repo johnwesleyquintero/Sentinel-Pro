@@ -1,7 +1,7 @@
 using System;
 using System.Windows;
 
-namespace WorkspaceCleanup.Services
+namespace SentinelPro.Services
 {
     /// <summary>
     /// Provides a centralized way to handle and display error messages.

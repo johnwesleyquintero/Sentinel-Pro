@@ -1,6 +1,6 @@
 using System;
 using System.Windows;
-using WorkspaceCleanup.Services;
+using SentinelPro.Services;
 using Microsoft.Extensions.Configuration;
 
 namespace SentinelPro

@@ -1,12 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis" Version="1.67.0" />
     <PackageReference Include="Google.Cloud.AIPlatform.V1" Version="3.6.0" />
-    <PackageReference Include="Google.Cloud.Gemini.V1" Version="1.0.0" />
     <PackageReference Include="Google.Apis.Auth" Version="1.67.0" />
+    <PackageReference Include="Google.Apis" Version="1.67.0" />
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.6" />
-    <ProjectReference Include="WorkspaceCleanup.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -12,10 +12,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Win32;
-using WorkspaceCleanup.Services;
+using SentinelPro.Services;
 using System.ComponentModel;
 
-namespace WorkspaceCleanup
+namespace SentinelPro
 {
     /// <summary>
     /// Main window of the Workspace Cleanup application, providing backup management and restoration functionality.

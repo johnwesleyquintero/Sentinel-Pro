@@ -1,6 +1,6 @@
 using System.Windows.Input;
 
-namespace WorkspaceCleanup.ViewModels
+namespace SentinelPro.ViewModels
 {
     public class RelayCommand : ICommand
     {

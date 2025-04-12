@@ -3,135 +3,135 @@ name: Sentinel Pro CI
 on: [push, pull_request]
 
 env:
-  DOTNET_VERSION: '8.0.x'
+  DOTNET_VERSION: "8.0.x"
 
 jobs:
   build-and-test:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
 
-    - name: Publish Application
-      run: dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
+      - name: Publish Application
+        run: dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
 
-    - name: Run Unit Tests
-      run: dotnet test --configuration Release --no-build --logger "trx;LogFileName=test-results.xml" /p:CollectCoverage=true /p:CoverletOutput=../coverage/ /p:Threshold=100 /p:ThresholdType=line /p:ThresholdStat=total
+      - name: Run Unit Tests
+        run: dotnet test --configuration Release --no-build --logger "trx;LogFileName=test-results.xml" /p:CollectCoverage=true /p:CoverletOutput=../coverage/ /p:Threshold=100 /p:ThresholdType=line /p:ThresholdStat=total
 
-    - name: Performance Benchmark
-      run: dotnet test --filter Category=Performance --configuration Release
+      - name: Performance Benchmark
+        run: dotnet test --filter Category=Performance --configuration Release
 
-    - name: OWASP ZAP Scan
-      uses: zaproxy/action-baseline@v0.9.0
-      with:
-        target: 'http://localhost:5000'
+      - name: OWASP ZAP Scan
+        uses: zaproxy/action-baseline@v0.9.0
+        with:
+          target: "http://localhost:5000"
 
-    - name: Dependency Check
-      uses: dependency-check/action@v3
-      with:
-        project: 'WorkspaceCleanup.csproj'
-        format: 'HTML'
-        fail_on: 'high'
+      - name: Dependency Check
+        uses: dependency-check/action@v3
+        with:
+          project: "SentinelPro.csproj"
+          format: "HTML"
+          fail_on: "high"
 
-    - name: Code Quality Gate
-      uses: sonarsource/sonarqube-scan-action@v1
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Code Quality Gate
+        uses: sonarsource/sonarqube-scan-action@v1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-    - name: Post-Publish Verification
-      run: |
-        $exePath = "WorkspaceCleanup/bin/Release/net8.0-windows/win-x64/publish/WorkspaceCleanup.exe"
-        if (-not (Test-Path $exePath)) {
-            Write-Error "Production executable not found! Build failed"
-            exit 1
-        }
+      - name: Post-Publish Verification
+        run: |
+          $exePath = "SentinelPro/bin/Release/net8.0-windows/win-x64/publish/SentinelPro.exe"
+          if (-not (Test-Path $exePath)) {
+              Write-Error "Production executable not found! Build failed"
+              exit 1
+          }
 
-    - name: Security Scan (SAST)
-      uses: shiftleft-io/scan-action@v1
-      with:
-        output: reports/sast
+      - name: Security Scan (SAST)
+        uses: shiftleft-io/scan-action@v1
+        with:
+          output: reports/sast
 
-    - name: Security Scan (DAST)
-      uses: shiftleft-io/scan-action@v1
-      with:
-        output: reports/dast
-        fail_on: high
+      - name: Security Scan (DAST)
+        uses: shiftleft-io/scan-action@v1
+        with:
+          output: reports/dast
+          fail_on: high
 
-    - name: Performance Benchmark
-      run: dotnet test --filter Category=Performance --configuration Release
-      env:
-        MAX_BACKUP_TIME_MS: 60000
-        MAX_AI_RESPONSE_MS: 2000
-        MAX_MEMORY_MB: 500
+      - name: Performance Benchmark
+        run: dotnet test --filter Category=Performance --configuration Release
+        env:
+          MAX_BACKUP_TIME_MS: 60000
+          MAX_AI_RESPONSE_MS: 2000
+          MAX_MEMORY_MB: 500
 
-    - name: Security Scan
-      uses: advanced-security/codeql-action/analyze@v2
-      with:
-        languages: 'csharp'
-        queries: security-extended
+      - name: Security Scan
+        uses: advanced-security/codeql-action/analyze@v2
+        with:
+          languages: "csharp"
+          queries: security-extended
 
-    - name: Validate Benchmarks
-      run: |
-        dotnet test --filter "FullyQualifiedName~PerformanceTests" --logger "trx;LogFileName=perf-results.xml"
-        python scripts/verify_benchmarks.py
+      - name: Validate Benchmarks
+        run: |
+          dotnet test --filter "FullyQualifiedName~PerformanceTests" --logger "trx;LogFileName=perf-results.xml"
+          python scripts/verify_benchmarks.py
 
-    - name: Load Testing
-      run: dotnet test --filter Category=Load --configuration Release
-      env:
-        LOAD_THRESHOLD: 1000ms
+      - name: Load Testing
+        run: dotnet test --filter Category=Load --configuration Release
+        env:
+          LOAD_THRESHOLD: 1000ms
 
-    - name: Code Coverage
-      uses: coverlet-coverage/coverlet-report-generator-action@v1
-      with:
-        reports: '**/*.cobertura.xml'
-        threshold_type: line,branch
-        threshold: 100
+      - name: Code Coverage
+        uses: coverlet-coverage/coverlet-report-generator-action@v1
+        with:
+          reports: "**/*.cobertura.xml"
+          threshold_type: line,branch
+          threshold: 100
 
-    - name: Code Linting
-      run: dotnet format --verify-no-changes --check
+      - name: Code Linting
+        run: dotnet format --verify-no-changes --check
 
-    - name: Dependency Check
-      uses: dependency-check/action@v1
-      with:
-        project: 'Sentinel Pro.sln'
-        format: 'HTML'
-        failOnCVSS: 7
+      - name: Dependency Check
+        uses: dependency-check/action@v1
+        with:
+          project: "Sentinel Pro.sln"
+          format: "HTML"
+          failOnCVSS: 7
 
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: production-build
-        path: Sentinel Pro/bin/Release/net8.0-windows/win10-x64/publish/*
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: production-build
+          path: Sentinel Pro/bin/Release/net8.0-windows/win10-x64/publish/*
 
-    - name: Upload Security Reports
-      uses: actions/upload-artifact@v3
-      with:
-        name: security-reports
-        path: reports/**/*
+      - name: Upload Security Reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-reports
+          path: reports/**/*
 
-    - name: Setup Ollama
-      run: |
-        Invoke-WebRequest -Uri https://ollama.ai/install.ps1 -OutFile install.ps1
-        .\install.ps1
-        ollama pull llama2
+      - name: Setup Ollama
+        run: |
+          Invoke-WebRequest -Uri https://ollama.ai/install.ps1 -OutFile install.ps1
+          .\install.ps1
+          ollama pull llama2
 
-    - name: Ollama API Tests
-      run: dotnet test --filter Category=Ollama --configuration Release --logger "trx;LogFileName=ollama-tests.xml"
+      - name: Ollama API Tests
+        run: dotnet test --filter Category=Ollama --configuration Release --logger "trx;LogFileName=ollama-tests.xml"
 
-    - name: Ollama Security Scan
-      run: |
-        Start-Process ollama -ArgumentList serve
-        Start-Sleep -Seconds 10
-        zap-baseline.py -t http://localhost:11434 -r zap-report.html
+      - name: Ollama Security Scan
+        run: |
+          Start-Process ollama -ArgumentList serve
+          Start-Sleep -Seconds 10
+          zap-baseline.py -t http://localhost:11434 -r zap-report.html

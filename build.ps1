@@ -48,7 +48,7 @@ if (Test-Path ".\publish\SentinelPro.exe") {
     Compress-Archive -Path ".\publish\SentinelPro.exe" -DestinationPath $zipPath -Force
 }
 else {
-    Write-Host "Publish failed - SentinelPro.exe not found"
+    Write-Host "Publish failed - Missing build output. Check CsWinRT configuration in project file"
     exit 1
 }
 
@@ -59,7 +59,9 @@ if (!(Test-Path $wwwrootPublishDir)) {
 }
 
 if (Test-Path ".\publish\SentinelPro.exe") {
-    Copy-Item ".\publish\SentinelPro.exe" -Destination "$wwwrootPublishDir\SentinelPro-Setup.exe" -Force
+    if (Test-Path ".\bin\Release\net8.0-windows\win-x64\publish\SentinelPro.exe") {
+        Copy-Item ".\bin\Release\net8.0-windows\win-x64\publish\SentinelPro.exe" -Destination "$wwwrootPublishDir\SentinelPro-Setup.exe" -Force
+    }
 }
 if (Test-Path $zipPath) {
     Copy-Item $zipPath -Destination "$wwwrootPublishDir" -Force

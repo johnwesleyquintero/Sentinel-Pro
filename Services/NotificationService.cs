@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace WorkspaceCleanup.Services
+namespace SentinelPro.Services
 {
     public static class NotificationService
     {

@@ -1,8 +1,8 @@
-namespace WorkspaceCleanup.Services.Exceptions;
+namespace SentinelPro.Services.Exceptions;
 
 public class PerformanceThresholdExceededException : Exception
 {
-    public PerformanceThresholdExceededException(double threshold, double actualValue) 
+    public PerformanceThresholdExceededException(double threshold, double actualValue)
         : base($"Performance threshold {threshold}% exceeded with {actualValue}% utilization")
     {
         Threshold = threshold;

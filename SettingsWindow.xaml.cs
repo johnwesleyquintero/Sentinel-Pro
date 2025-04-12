@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using SentinelPro.Models;
 
-namespace WorkspaceCleanup
+namespace SentinelPro
 {
     public partial class SettingsWindow : Window
     {

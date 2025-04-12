@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SentinelPro", "SentinelPro.csproj", "{722EA40B-29AD-4094-A4D8-FC60B3B2C4A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkspaceCleanup", "WorkspaceCleanup.csproj", "{0230EA1C-3802-410B-B517-785C8877DE15}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SentinelPro", "SentinelPro.csproj", "{0230EA1C-3802-410B-B517-785C8877DE15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

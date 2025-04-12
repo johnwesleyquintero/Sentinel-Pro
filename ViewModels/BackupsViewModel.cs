@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows;
 using SentinelPro.Models;
 using SentinelPro.Services;
+using SentinelPro.Services.Interfaces;
 
 namespace SentinelPro.ViewModels
 {
@@ -97,7 +98,7 @@ namespace SentinelPro.ViewModels
             {
                 var backupDir = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    "WorkspaceCleanup",
+                    "SentinelPro",
                     "Backups"
                 );
 

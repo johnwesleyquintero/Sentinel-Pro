@@ -11,11 +11,11 @@ namespace SentinelPro.Services
     {
         /// <summary>
         /// Gets the path where log files are stored. Located in the LocalApplicationData folder
-        /// under WorkspaceCleanup/Logs directory.
+        /// under SentinelPro/Logs directory.
         /// </summary>
         private static readonly string LogPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "WorkspaceCleanup",
+            "SentinelPro",
             "Logs");
 
         /// <summary>

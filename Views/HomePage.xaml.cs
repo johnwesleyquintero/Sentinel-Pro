@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace WorkspaceCleanup.Views
+namespace SentinelPro.Views
 {
     public partial class HomePage : Page
     {
