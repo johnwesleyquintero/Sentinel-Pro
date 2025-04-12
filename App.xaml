@@ -5,8 +5,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ui:ThemeResources />
-                <ui:XamlControlsResources />
+                <ui:ThemeManager xmlns:ui="http://schemas.modernwpf.com/2019" />
+                <ui:XamlControlsResources xmlns:ui="http://schemas.modernwpf.com/2019" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

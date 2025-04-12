@@ -4,7 +4,7 @@
 
 <h1 align="center">Your Ultimate AI-Powered Workspace Guardian 🛡️</h1>
 
-> Sentinel Pro is a sophisticated WPF application meticulously designed to safeguard your valuable work by managing workspace backups and restorations with unparalleled ease. Elevating your workflow, Sentinel Pro now integrates **Sentinel AI** 🤖, leveraging the power of the **Gemini API** for intelligent code assistance, natural language backup queries, and more. This comprehensive tool ensures your projects are always protected, instantly recoverable, and continuously optimized.
+> Sentinel Pro is a WPF application for managing workspace backups and restorations. It integrates **Sentinel AI** 🤖, using the **Gemini API** for code assistance, natural language backup queries, and more. This tool protects your projects, making them instantly recoverable and continuously optimized.
 
 ---
 
@@ -62,18 +62,18 @@ Sentinel Pro enhances your productivity with integrated AI features powered by G
 
 ### For End Users
 
-1.  **Download:** Get the latest installer (`SentinelPro-Setup.exe`) from our official landing page (hosted via `wwwroot`).
-2.  **Install:** Run the setup wizard. It will guide you through the installation and ensure necessary dependencies like the .NET Runtime are present.
-3.  **Configure:** On first launch, configure essential settings like your Gemini API Key (if using AI features) and desired backup locations via the Setup Wizard or application settings.
-4.  **Launch & Use:** Start Sentinel Pro and begin managing your workspaces!
+1.  **Download:** Get the latest installer (`SentinelPro-Setup.exe`) from our official landing page (`wwwroot`).
+2.  **Install:** Run the setup wizard. It will guide you through the installation and ensure dependencies like the .NET Runtime are present.
+3.  **Configure:** Configure essential settings, including your Gemini API Key (if using AI features) and backup locations, via the Setup Wizard or application settings.
+4.  **Launch & Use:** Start Sentinel Pro and manage your workspaces!
 
 ### For Developers
 
-1.  **Clone Repository:** `git clone https://github.com/your-username/Sentinel-Pro.git`
-2.  **Open Solution:** Open `SentinelPro.sln` in Visual Studio 2022 or later.
-3.  **Restore Dependencies:** Ensure all NuGet packages are restored.
-4.  **Configure:** Add your Gemini API Key in the appropriate configuration file (e.g., `appsettings.json` or user secrets) for testing AI features.
-5.  **Build & Run:** Build the solution (Debug or Release) and run the `SentinelPro.WPF` project.
+1.  **Clone the repository:** `git clone https://github.com/your-username/Sentinel-Pro.git`
+2.  **Open the solution:** Open `SentinelPro.sln` in Visual Studio 2022 or later.
+3.  **Restore dependencies:** Ensure all NuGet packages are restored.
+4.  **Configure:** Add your Gemini API Key in the appropriate configuration file (e.g., `appsettings.json` or user secrets).
+5.  **Build and run:** Build the solution (Debug or Release) and run the `SentinelPro.WPF` project.
 
 ---
 
@@ -84,11 +84,11 @@ Key settings can be adjusted within the application or via configuration files (
 | Setting             | Purpose                                                                 | Notes                                          |
 | :------------------ | :---------------------------------------------------------------------- | :--------------------------------------------- |
 | **Backup Location** | Default directory for storing backups.                                  | Default: `__cleanup_backups__` in home folder. |
-| **Gemini API Key**  | Your API key for accessing Google's Gemini AI services.                 | Required for all AI features.                  |
-| **Compression**     | Adjust compression level (balance speed vs. size).                      |                                                |
-| **Encryption Key**  | Key used for encrypting/decrypting backups (if enabled).                | Store securely.                                |
+| **Gemini API Key**  | Your API key for accessing Google's Gemini AI services.                 | Required for AI features.                      |
+| **Compression**     | Adjust the compression level (balance speed vs. size).                  |                                                |
+| **Encryption Key**  | Key used for encrypting/decrypting backups (if enabled).                | Store your key securely.                       |
 | **Schedules**       | Define automated backup intervals and times.                            |                                                |
-| **Notifications**   | Configure email settings for backup alerts.                             | SMTP server details, recipients, etc.          |
+| **Notifications**   | Configure email settings for backup alerts.                             | Include SMTP server details and recipients.    |
 | **Retention Rules** | Set policies for how long backups are kept (e.g., keep last 5).         |                                                |
 | **Logging Level**   | Control the verbosity of application logs (Debug, Info, Error, etc.). |                                                |
 
@@ -96,13 +96,13 @@ Key settings can be adjusted within the application or via configuration files (
 
 ## 🔧 Troubleshooting
 
-| Issue                      | Potential Solution                                                                                             |
-| :------------------------- | :------------------------------------------------------------------------------------------------------------- |
-| **No Backups Displayed**   | Verify `rollback_info.json` exists and is accessible; check configured backup location permissions.            |
-| **Error Messages**         | Review the status bar or application logs (`Logs` folder) for detailed error information.                      |
-| **Backup/Restore Failures**| Ensure Sentinel Pro has necessary write/read permissions for source and target directories; check disk space. |
-| **Slow Performance**       | Check system resources (CPU, RAM, Disk I/O); consider adjusting compression level or excluding large files.    |
-| **AI Features Not Working**| Verify your Gemini API key is correct and active; ensure a stable internet connection.                         |
+| Issue                      | Potential Solution                                                                                                |
+| :------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| **No Backups Displayed**   | Verify `rollback_info.json` exists and is accessible; check configured backup location permissions.             |
+| **Error Messages**         | Review the status bar or application logs (`Logs` folder) for detailed error information.                       |
+| **Backup/Restore Failures**| Ensure Sentinel Pro has necessary read/write permissions for source and target directories; check disk space.  |
+| **Slow Performance**       | Check system resources (CPU, RAM, Disk I/O); consider adjusting the compression level or excluding large files. |
+| **AI Features Not Working**| Verify your Gemini API key is correct and active; ensure a stable internet connection.                          |
 
 ---
 

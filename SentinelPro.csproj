@@ -11,13 +11,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ModernWpf" Version="0.9.6" />
+    <PackageReference Include="ModernWpf" Version="0.9.8" />
+    <PackageReference Include="ModernWpf.Controls" Version="0.9.8" />
+    
   </ItemGroup>
 
   <ItemGroup>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <ResourceDictionary Include="Shared\Styles\ButtonStyles.xaml" />
+    <Compile Include="Utilities\PathConstants.cs" />
   </ItemGroup>
 
   <PropertyGroup>
