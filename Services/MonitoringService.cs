@@ -13,7 +13,7 @@ namespace SentinelPro.Services
     /// Service responsible for monitoring application performance metrics including CPU and RAM usage.
     /// Provides real-time monitoring and notifications when resource usage exceeds configured thresholds.
     /// </summary>
-    public class MonitoringService : IMonitoringService, IDisposable // Added IDisposable
+    public class MonitoringService : IDisposable // Added IDisposable
     {
         private readonly ILogger<MonitoringService> _logger; // Added logger field
         private readonly INotificationService _notificationService; // Added notification service field
@@ -40,6 +40,7 @@ namespace SentinelPro.Services
             // Platform check for PerformanceCounter
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
+                _logger.LogInformation("Running on Windows, attempting to initialize performance counters.");
                 try
                 {
                     // Use readOnly=true for counters if possible, might require admin privileges otherwise
@@ -49,6 +50,7 @@ namespace SentinelPro.Services
                 }
                 catch (Exception ex)
                 {
+                   _logger.LogError(ex, "Failed to initialize Windows performance counters.");
                      _logger.LogError(ex, "Failed to initialize Windows performance counters for process {ProcessName}. Monitoring will be limited.", _processName);
                      _cpuCounter = null;
                      _ramCounter = null;
