@@ -30,3 +30,5 @@
 - [ ] Enhance logging implementation in LoggingService
 - [ ] Add validation for appsettings.json configuration
 - [ ] Implement performance monitoring for services
+- [ ] Implement Setup Wizard: Run for advanced configuration
+- [ ] Publish SentinelPro-Setup.exe - Windows installer and Setup Wizard to wwwroot\publish

@@ -35,8 +35,8 @@ Sentinel Pro now includes **Sentinel AI**, a local AI assistant to help you with
 
 | Feature | Description |
 |---------|-------------|
-| **Intelligent Code Completion** | Get context-aware code suggestions as you type, powered by CodeLlama |
-| **Code Explanation** | Understand unfamiliar code blocks with natural language explanations, powered by Mistral |
+| **Intelligent Code Completion** | Get context-aware code suggestions as you type, powered by Gemini API |
+| **Code Explanation** | Understand unfamiliar code blocks with natural language explanations, powered by Gemini API |
 | **Basic Error Detection** | Detect basic errors in your code |
 | **Natural Language Backup Queries** | Ask questions about your backups using natural language |
 | **AI-Powered Future** | We're actively developing more AI features |
@@ -50,9 +50,9 @@ Sentinel Pro now includes **Sentinel AI**, a local AI assistant to help you with
 
 ### 🧠 AI Model Requirements
 
-- **Ollama:** Functional and properly configured installation
-- **Memory:** 8GB+ RAM recommended (16GB+ ideal)
-- **Models:** CodeLlama and Mistral models supported
+- **Gemini API:** Requires valid API key and internet connection
+- **Memory:** 4GB+ RAM recommended
+- **No local model installation required**
 
 ## 🚀 Getting Started
 
@@ -100,7 +100,7 @@ Backup history: Maintained in `rollback_info.json`
 | **Error Messages** | Review status bar |
 | **Backup Failures** | Verify write permissions |
 | **Slow Performance** | Check disk space and CPU usage |
-| **AI Service Issues** | Ensure Ollama is running |
+| **AI Service Issues** | Ensure internet connection and valid Gemini API key |
 
 ## 🔬 Performance Benchmarks
 
@@ -109,7 +109,7 @@ Backup history: Maintained in `rollback_info.json`
 | **Backup Creation (1GB)** | < 60 seconds | ~45 seconds |
 | **Backup Restoration (1GB)** | < 45 seconds | ~30 seconds |
 | **Compression Ratio** | > 50% reduction | ~65% reduction |
-| **AI Response Time** | < 2 seconds | ~1.5 seconds |
+| **AI Response Time** | < 1 second | ~0.5 seconds |
 | **UI Responsiveness** | < 100ms latency | ~50ms latency |
 | **Memory Usage** | < 85% system RAM | ~70% peak |
 | **CPU Usage** | < 80% sustained | ~60% average |
