@@ -60,12 +60,14 @@ if (!(Test-Path $wwwrootPublishDir)) {
 }
 
 if (Test-Path ".\publish\SentinelPro.exe") {
-    if (Test-Path ".\bin\Release\net8.0-windows\win-x64\publish\SentinelPro.exe") {
-        Copy-Item ".\bin\Release\net8.0-windows\win-x64\publish\SentinelPro.exe" -Destination "$wwwrootPublishDir\SentinelPro-Setup.exe" -Force
+    if (Test-Path ".\bin\Release\net8.0-windows\win-x64\SentinelPro.exe") {
+        Copy-Item ".\bin\Release\net8.0-windows\win-x64\SentinelPro.exe" -Destination "$wwwrootPublishDir\SentinelPro-Setup.exe" -Force
     }
 }
 if (Test-Path $zipPath) {
-    Copy-Item $zipPath -Destination "$wwwrootPublishDir" -Force
+    if (Test-Path $zipPath) {
+        Copy-Item $zipPath -Destination "$wwwrootPublishDir" -Force
+    }
 }
 
 Write-Host "Build completed successfully!"
