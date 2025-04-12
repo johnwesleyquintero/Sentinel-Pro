@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace WorkspaceCleanup.ViewModels
+namespace SentinelPro.ViewModels
 {
     public class ViewModelBase : INotifyPropertyChanged
     {

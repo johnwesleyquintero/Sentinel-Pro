@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Microsoft.Extensions.Logging;
 
-namespace WorkspaceCleanup.Models
+namespace SentinelPro.Models
 {
 
     /// <summary>

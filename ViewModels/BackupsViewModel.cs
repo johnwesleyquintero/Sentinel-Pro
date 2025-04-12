@@ -8,7 +8,7 @@ using System.Windows;
 using SentinelPro.Models;
 using SentinelPro.Services;
 
-namespace WorkspaceCleanup.ViewModels
+namespace SentinelPro.ViewModels
 {
     public class BackupsViewModel : ViewModelBase
     {

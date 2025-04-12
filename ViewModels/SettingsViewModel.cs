@@ -1,7 +1,7 @@
 using System.Windows.Input;
-using WorkspaceCleanup.Models;
+using SentinelPro.Models;
 
-namespace WorkspaceCleanup.ViewModels
+namespace SentinelPro.ViewModels
 {
     public class SettingsViewModel : ViewModelBase
     {
