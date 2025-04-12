@@ -29,9 +29,6 @@
                              Tag="🏠"
                              IsChecked="True"/>
                 <RadioButton Style="{StaticResource NavigationButtonStyle}" 
-                             Content="Backups"
-                             Tag="📁"/>
-                <RadioButton Style="{StaticResource NavigationButtonStyle}" 
                              Content="Projects"
                              Tag="📋"
                              IsEnabled="False"/>

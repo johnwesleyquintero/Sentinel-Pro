@@ -1,33 +1,15 @@
-using System;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Extensions.DependencyInjection; // Assuming ServiceLocator uses this
-using SentinelPro.ViewModels; // Assuming MainViewModel is here
-using SentinelPro.Views; // Assuming Page views are here
+using System.Windows.Navigation;
+using SentinelPro.Views;
 
 namespace SentinelPro
 {
-    /// <summary>
-    /// Main window of the Sentinel Pro application, acting as the primary container for different views.
-    /// Handles top-level navigation between pages.
-    /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly MainViewModel _viewModel;
-        // Inject IServiceProvider if pages need dependency injection
-        private readonly IServiceProvider _serviceProvider;
-
-        /// <summary>
-        /// Initializes a new instance of the MainWindow class.
-        /// </summary>
-        public MainWindow(IServiceProvider serviceProvider) // Inject IServiceProvider
+        public MainWindow()
         {
             InitializeComponent();
-            _serviceProvider = serviceProvider;
-
-            // Resolve the MainViewModel via the service provider
-            _viewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-            DataContext = _viewModel;
 
             // Set default navigation (e.g., to Home page)
             // Ensure the corresponding RadioButton IsChecked=True in XAML or set it here
@@ -55,12 +37,11 @@ namespace SentinelPro
             // or resolving pages via DI if they have complex dependencies.
             Page page = pageName switch
             {
-                "Home" => _serviceProvider.GetService<HomePage>() ?? new HomePage(), // Resolve or create
-                "Backups" => _serviceProvider.GetService<BackupsPage>() ?? new BackupsPage(), // Resolve or create
+                "Home" => new Views.HomePage(),
                 // "Settings" should not be navigated to within the Frame.
                 // It's a separate Window, opened via a different UI element (e.g., Menu).
                 // If a settings *page* is desired, create SettingsPage : Page/UserControl.
-                _ => _serviceProvider.GetService<HomePage>() ?? new HomePage() // Default to Home
+                _ => new Views.HomePage() // Default to Home
             };
 
             if (ContentFrame.Content?.GetType() != page.GetType()) // Avoid redundant navigation

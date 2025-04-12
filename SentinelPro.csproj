@@ -1,19 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PublishDir>wwwroot\publish</PublishDir>
-    <OutputPath>wwwroot\publish</OutputPath>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Google.Cloud.AIPlatform.V1" Version="3.6.0" />
-    <PackageReference Include="Google.Apis.Auth" Version="1.67.0" />
-    <PackageReference Include="Google.Apis" Version="1.67.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
-    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.1.0" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
-  </ItemGroup>
-
-  <PropertyGroup>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.0.0</Version>
+    <Authors>Sentinel Pro Team</Authors>
+    <Description>AI-Powered Workspace Management Tool</Description>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -28,36 +22,38 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.4.1" />
     <PackageReference Include="ModernWpfUI" Version="0.9.6" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NLog" Version="5.3.8" />
-    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.2" />
-    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.4" />
-    <PackageReference Include="Serilog" Version="3.2.2" />
-    <PackageReference Include="Serilog.Sinks.File" Version="5.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
   </ItemGroup>
-   <ItemGroup>
-   </ItemGroup>
-   <ItemGroup>
-     <Page Include="MainWindow.xaml">
-       <Generator>MSBuild:Compile</Generator>
-     </Page>
-     <Page Include="Views/HomePage.xaml">
-       <Generator>MSBuild:Compile</Generator>
-     </Page>
-   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Remove="Microsoft.Windows.CsWinRT" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\**" />
+    <Compile Remove="Services\**" />
+    <Compile Remove="ViewModels\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <EmbeddedResource Remove="ViewModels\**" />
+    <None Remove="Models\**" />
+    <None Remove="Services\**" />
+    <None Remove="ViewModels\**" />
+    <Page Remove="RuleEditDialog.xaml" />
+    <Page Remove="SettingsWindow.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views/HomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
     <PropertyGroup>
       <EnableDefaultPageItems>false</EnableDefaultPageItems>
     </PropertyGroup>
-    <ItemGroup>
-      <Page Include="MainWindow.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-      <Page Include="Views/HomePage.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-    </ItemGroup>
+    
  </Project>
