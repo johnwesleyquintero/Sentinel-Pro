@@ -47,7 +47,7 @@ if (!(Test-Path $wwwrootPublishDir)) {
     New-Item -ItemType Directory -Force -Path $wwwrootPublishDir
 }
 
-Copy-Item ".\publish\SentinelPro.exe" -Destination "$wwwrootPublishDir\SentinelPro-Setup.exe" -Force
+Copy-Item ".\publish\SentinelPro.exe" -Destination "c:\Users\johnw\Sentinel-Pro\wwwroot\publish\SentinelPro-Setup.exe" -Force
 Copy-Item $zipPath -Destination "$wwwrootPublishDir" -Force
 
 Write-Host "Build completed successfully!"
