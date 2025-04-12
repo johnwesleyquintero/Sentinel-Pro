@@ -7,19 +7,19 @@ $buildNumber = "$version-$buildDate"
 
 # Clean previous builds
 Write-Host "Cleaning previous builds..."
-dotnet clean
+dotnet clean SentinelPro.sln
 
 # Restore NuGet packages
 Write-Host "Restoring packages..."
-dotnet restore
+dotnet restore SentinelPro.sln
 
 # Build solution with Release configuration
 Write-Host "Building solution..."
-dotnet build --configuration Release /p:Version=$version
+dotnet build SentinelPro.sln --configuration Release /p:Version=$version
 
 # Run automated tests
 Write-Host "Running tests..."
-dotnet test --no-restore --configuration Release
+dotnet test SentinelPro.sln --no-restore --configuration Release
 
 # Security scan
 Write-Host "Running security scan..."
@@ -27,7 +27,7 @@ dotnet list package --vulnerable
 
 # Publish executable for Windows with production settings
 Write-Host "Creating release build..."
-dotnet publish SentinelPro.csproj -c Release -r win-x64 `
+dotnet publish SentinelPro.sln -c Release -r win-x64 `
     --self-contained true `
     -p:PublishSingleFile=true `
     -p:PublishTrimmed=false `
