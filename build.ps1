@@ -59,7 +59,7 @@ if (!(Test-Path $wwwrootPublishDir)) {
 }
 
 if (Test-Path ".\publish\SentinelPro.exe") {
-    Copy-Item ".\publish\SentinelPro.exe" -Destination "c:\Users\johnw\Sentinel-Pro\wwwroot\publish\SentinelPro-Setup.exe" -Force
+    Copy-Item ".\publish\SentinelPro.exe" -Destination "$wwwrootPublishDir\SentinelPro-Setup.exe" -Force
 }
 if (Test-Path $zipPath) {
     Copy-Item $zipPath -Destination "$wwwrootPublishDir" -Force
