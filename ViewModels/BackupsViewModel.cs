@@ -56,9 +56,13 @@ namespace SentinelPro.ViewModels
             try
             {
                 IsBackupInProgress = true;
-                var backupPath = await _backupModel.CreateBackupAsync(_configuration.WorkspacePath);
-                BackupHistory.Insert(0, backupPath);
-                _notificationService.ShowInfo($"Backup created successfully at {backupPath}");
+                // TODO: CreateBackupAsync needs a source path and description. Using BackupLocation as source for now. Needs clarification.
+                var sourcePath = _configuration.BackupLocation; // Assuming BackupLocation is the source to backup
+                var description = $"Manual Backup {DateTime.Now:yyyy-MM-dd HH:mm:ss}";
+                var backupId = await _backupModel.CreateBackupAsync(sourcePath, description);
+                var backupFileName = $"{backupId}.zip"; // Assuming BackupModel returns ID, not full path
+                BackupHistory.Insert(0, backupFileName); // Add the file name to history
+                _notificationService.ShowInfo($"Backup '{backupFileName}' created successfully.");
             }
             catch (Exception ex)
             {
@@ -78,8 +82,20 @@ namespace SentinelPro.ViewModels
             try
             {
                 IsBackupInProgress = true;
-                await _backupModel.RestoreBackupAsync(backupPath, _configuration.WorkspacePath);
-                _notificationService.ShowInfo($"Backup restored successfully from {backupPath}");
+                // Assuming backupPath is just the ID (filename without extension)
+                var backupId = Path.GetFileNameWithoutExtension(backupPath);
+                var destinationPath = _configuration.BackupLocation; // Assuming BackupLocation is the restore destination
+                 if (string.IsNullOrWhiteSpace(backupId))
+                 {
+                    throw new ArgumentException("Invalid backup file selected.", nameof(backupPath));
+                 }
+                await _backupModel.RestoreBackupAsync(backupId, destinationPath);
+                _notificationService.ShowInfo($"Backup '{backupPath}' restored successfully to {destinationPath}");
+            }
+            catch (ArgumentException aex) // Catch specific argument exception
+            {
+                 _notificationService.ShowError($"Failed to restore backup: {aex.Message}");
+                 _logService.Error(aex, "Backup restoration failed due to invalid argument");
             }
             catch (Exception ex)
             {
@@ -106,10 +122,15 @@ namespace SentinelPro.ViewModels
                 {
                     var backups = Directory.GetFiles(backupDir, "*.zip")
                         .OrderByDescending(f => new FileInfo(f).CreationTime)
+                        .Select(Path.GetFileName) // Get only filenames
                         .ToList();
 
-                    BackupHistory = new ObservableCollection<string>(backups);
-                    _logService.Information($"Loaded {backups.Count} backups from history");
+                    BackupHistory = new ObservableCollection<string>(backups!); // Add non-null assertion
+                    _logService.Info($"Loaded {backups.Count} backups from history"); // Use Info method
+                }
+                else
+                {
+                    _logService.Info("Backup directory does not exist. No history loaded.");
                 }
             }
             catch (Exception ex)

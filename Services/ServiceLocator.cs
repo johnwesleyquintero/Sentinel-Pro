@@ -1,4 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
+using SentinelPro.Services.Interfaces;
+using SentinelPro.ViewModels;
 using SentinelPro.Models;
 using SentinelPro.Services;
 
@@ -17,9 +19,12 @@ namespace SentinelPro.Services
 
             // Register services
             services.AddSingleton<ConfigurationModel>();
-            services.AddSingleton<IAIService, OllamaAIService>();
             services.AddHttpClient();
 
+            // Register ViewModels
+            services.AddSingleton<MainViewModel>();
+            services.AddTransient<SettingsViewModel>();
+            services.AddSingleton<IErrorHandlingService, ErrorHandlingService>();
             _serviceProvider = services.BuildServiceProvider();
         }
 

@@ -6,7 +6,7 @@ using SentinelPro.ViewModels;
 
 namespace SentinelPro
 {
-    public partial class RuleEditDialog : Page
+    public partial class RuleEditDialog : Window
     {
         private readonly WorkspaceRule _originalRule;
         public WorkspaceRule Rule { get; private set; }
@@ -15,7 +15,7 @@ namespace SentinelPro
         {
             InitializeComponent();
             _originalRule = rule;
-            Rule = rule?.Clone() ?? new WorkspaceRule();
+            Rule = rule ?? new WorkspaceRule { Name = "New Rule" };
             DataContext = Rule;
 
             // Set default values for new rules
@@ -26,14 +26,18 @@ namespace SentinelPro
             }
         }
 
-
-
         private void BrowsePath_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            var dialog = new Microsoft.Win32.OpenFileDialog
             {
-                Rule.Path = dialog.SelectedPath;
+                ValidateNames = false,
+                CheckFileExists = false,
+                CheckPathExists = true,
+                FileName = "Folder Selection."
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                Rule.Path = System.IO.Path.GetDirectoryName(dialog.FileName);
             }
         }
 

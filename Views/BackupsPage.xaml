@@ -1,7 +1,7 @@
 <Page x:Class="SentinelPro.Views.BackupsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      Title="Backups">
+      Title="Backups" Loaded="BackupsPage_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

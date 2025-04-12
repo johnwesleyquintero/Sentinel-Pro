@@ -1,132 +1,194 @@
-Okay, let's analyze MainWindow.xaml.cs based on the provided code and context from the other files.
+Acknowledged: `StartupUri` has been removed from `App.xaml`.
 
-Here are the likely causes of compilation errors and structural issues, along with steps to resolve them:
+**Next Step: Implement Dependency Injection using `Microsoft.Extensions.DependencyInjection`**
 
-Dependency Injection Mismatch:
+This is a crucial step for improving testability, maintainability, and decoupling components. We will use the standard .NET Generic Host builder, which integrates configuration, logging, and dependency injection seamlessly.
 
-Problem: MainWindow.xaml.cs tries to get the MainViewModel using App.Current.Services.GetService<MainViewModel>(). However, App.xaml.cs initializes a custom ServiceLocator and doesn't seem to populate a standard IServiceProvider accessible via App.Current.Services.
-Solution: You need to align the DI approach.
-Option A (Use ServiceLocator): Change the line in MainWindow.xaml.cs constructor to use the ServiceLocator:
-csharp
-// Get ViewModel using the custom ServiceLocator
-_viewModel = ServiceLocator.GetService<MainViewModel>();
-Make sure MainViewModel is registered during ServiceLocator.Initialize() in App.xaml.cs.
-Option B (Implement Standard DI): Modify App.xaml.cs to use Microsoft.Extensions.DependencyInjection more conventionally, build an IServiceProvider, and expose it (e.g., via a static property App.ServiceProvider). Then, the original line in MainWindow.xaml.cs might work if Services is the name of that property. This is generally a more robust approach but requires changes in App.xaml.cs.
-Syntax Error / Redundant Code in NavigateToPage:
+**Detailed Implementation Steps:**
 
-Problem: There's a stray break; after the switch expression, followed by another block attempting to set ContentFrame.Content using pageName strings. This second block is syntactically incorrect (misplaced };) and redundant because ContentFrame.Navigate(page); already handles the navigation.
-Solution: Remove the entire block starting from the stray break; down to the misplaced };:
-csharp
-void NavigateToPage(string pageName)
-{
-    Page page = pageName switch
+1.  **Install NuGet Package:**
+    *   Add the `Microsoft.Extensions.Hosting` package to your main WPF project (`SentinelPro.WPF`). This package includes `Microsoft.Extensions.DependencyInjection` and other useful hosting abstractions.
+    *   You can do this via the NuGet Package Manager in Visual Studio or the .NET CLI:
+        ```bash
+        dotnet add package Microsoft.Extensions.Hosting
+        ```
+
+2.  **Modify `App.xaml.cs`:**
+    *   Update `App.xaml.cs` to configure and build the host, register services, and resolve the main window.
+
+    ```csharp
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using SentinelPro.WPF.Services; // Assuming services are here
+    using SentinelPro.WPF.ViewModels; // Assuming ViewModels are here
+    using SentinelPro.WPF.Views; // Assuming Views (Windows) are here
+    using System.Windows;
+    using System; // For IDisposable
+
+    namespace SentinelPro.WPF
     {
-        "Home" => new HomePage(),       // Assuming Views.HomePage exists
-        "Backups" => new BackupsPage(), // Assuming Views.BackupsPage exists
-        "Settings" => new SettingsWindow(), // Uses the existing SettingsWindow Page
-        _ => new HomePage()             // Default to Home
-    };
+        public partial class App : Application, IDisposable
+        {
+            private IHost _host;
 
-    ContentFrame.Navigate(page);
-
-    // REMOVE THE FOLLOWING BLOCK:
-    /*
-                    break; // <--- Stray break
-                case "Backups":
-                    ContentFrame.Content = backupsPage;
-                    break;
-                case "Settings":
-                    ContentFrame.Content = settingsPage;
-                    break;
+            public App()
+            {
+                // Optional: Initialize things before host creation if needed
             }
-    }; // <--- Misplaced brace and semicolon
-    */
 
-    // REMOVE THIS TOO if it exists below the erroneous block:
-    // Set default page
-    // ContentFrame.Content = homePage; // This is handled by the initial NavigateToPage("Home") in constructor
-}
-Ensure that HomePage and BackupsPage classes exist, likely within the SentinelPro.Views namespace as hinted by using SentinelPro.Views; and the CreateBackupsPage method.
-Missing Fields / Uninitialized Variables:
+            protected override async void OnStartup(StartupEventArgs e)
+            {
+                base.OnStartup(e);
 
-Problem: Several methods (CreateSettingsPage, LoadBackups, RestoreSelectedBackup, OpenBackupDirectory) reference fields that are not declared or initialized in the provided MainWindow.xaml.cs code:
-_backupDir (string)
-_rollbackFile (string)
-_backups (likely ObservableCollection<BackupItem>)
-_errorHandlingService (instance of ErrorHandlingService or an interface like IErrorHandlingService)
-Solution:
-Declare these fields at the class level:
-csharp
-public partial class MainWindow : Window
-{
-    private readonly MainViewModel _viewModel;
-    private readonly IErrorHandlingService _errorHandlingService; // Assuming an interface exists
-    private string _backupDir;
-    private string _rollbackFile;
-    private readonly System.Collections.ObjectModel.ObservableCollection<BackupItem> _backups = new System.Collections.ObjectModel.ObservableCollection<BackupItem>();
+                var builder = Host.CreateDefaultBuilder(e.Args); // Includes config, logging defaults
 
-    // ... Constructor and other methods
-Initialize them, likely in the constructor or based on settings/ViewModel data:
-_errorHandlingService: Get this via DI/ServiceLocator like the MainViewModel.
-csharp
-// In the constructor:
-_viewModel = ServiceLocator.GetService<MainViewModel>(); // Or App.Current.Services...
-_errorHandlingService = ServiceLocator.GetService<IErrorHandlingService>(); // Or App.Current.Services...
-DataContext = _viewModel;
-Ensure IErrorHandlingService (or ErrorHandlingService) is registered in your DI setup.
-_backupDir and _rollbackFile: These likely need to be loaded from configuration or settings, possibly via the MainViewModel or a configuration service.
-csharp
-// Example: Get from ViewModel (assuming ViewModel exposes these)
-// _backupDir = _viewModel.BackupDirectory;
-// _rollbackFile = System.IO.Path.Combine(_backupDir, "rollback_history.json"); // Example path
+                // Configure Services (Dependency Injection)
+                builder.ConfigureServices((context, services) =>
+                {
+                    ConfigureDependencies(services, context.Configuration); // Pass configuration if needed
+                });
 
-// Or get from configuration service
-// var config = ServiceLocator.GetService<IConfiguration>();
-// _backupDir = config["Settings:BackupDirectory"];
-// _rollbackFile = System.IO.Path.Combine(_backupDir, "rollback_history.json"); // Example path
-_backups: The declaration new ObservableCollection<BackupItem>() initializes the collection.
-Unused or Misplaced Methods:
+                try
+                {
+                    _host = builder.Build(); // Build the host
+                    await _host.StartAsync(); // Start the host (optional for WPF, but good practice)
 
-Problem: Methods like CreateBackupsPage, CreateSettingsPage, SetupEventHandlers, LoadBackups, RestoreSelectedBackup, OpenBackupDirectory, and the nested classes (BackupItem, BackupInfo, RelayCommand) seem out of place in MainWindow.xaml.cs, especially since navigation now points to separate Page objects (HomePage, BackupsPage, SettingsWindow). The MainWindow should primarily be a host for the Frame and navigation controls. Backup/restore logic belongs in the BackupsPage or its ViewModel. Settings-related helpers belong in SettingsWindow or its ViewModel.
-Solution (Refactoring Recommended):
-Move Logic: Relocate the backup/restore logic (LoadBackups, RestoreSelectedBackup, OpenBackupDirectory, _backups collection, BackupItem, BackupInfo) to the BackupsPage.xaml.cs and its corresponding ViewModel (e.g., BackupsViewModel). The UI elements (BackupsList, RestoreButton, RefreshButton, OpenBackupDirButton, StatusText) should reside in BackupsPage.xaml.
-Remove Unused: Delete CreateBackupsPage and CreateSettingsPage if they are truly unused by the current navigation logic.
-Event Handlers: SetupEventHandlers is likely unnecessary if the logic is moved to the respective pages/ViewModels and uses Commands. If kept temporarily, ensure it's called (e.g., at the end of the constructor after InitializeComponent).
-RelayCommand: Move the RelayCommand class to its own file (e.g., Utils/RelayCommand.cs or Commands/RelayCommand.cs) for better organization.
-Missing using Directives:
+                    // Resolve and show the main window
+                    var mainWindow = _host.Services.GetRequiredService<MainWindow>();
+                    mainWindow.Show();
+                }
+                catch (Exception ex)
+                {
+                    // TODO: Implement proper logging/error handling
+                    MessageBox.Show($"Application failed to start: {ex.Message}", "Startup Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Shutdown(); // Shut down if startup fails
+                }
+            }
 
-Problem: The code uses classes from various namespaces that might not be included with using directives at the top of the file.
-Solution: Add the necessary using statements:
-csharp
-using System; // For ArgumentNullException, Exception
-using System.Collections.Generic; // For IEnumerable, List
-using System.Collections.ObjectModel; // For ObservableCollection
-using System.Diagnostics; // For Process
-using System.IO; // For File, Directory
-using System.Linq; // For Select in RestoreSelectedBackup
-using System.Management.Automation; // For PowerShell - Requires NuGet package
-using System.Text.Json; // For JsonSerializer
-using System.Threading.Tasks; // For Task
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input; // For ICommand, CommandManager
-using System.Windows.Media; // For VisualTreeHelper
-using Microsoft.Extensions.DependencyInjection; // Or your DI namespace
-using SentinelPro.Models;
-using SentinelPro.Services; // For IErrorHandlingService/ErrorHandlingService
-using SentinelPro.ViewModels;
-using SentinelPro.Views; // For HomePage, BackupsPage
-// Potentially others depending on specific implementations
-PowerShell Dependency:
+            private void ConfigureDependencies(IServiceCollection services, Microsoft.Extensions.Configuration.IConfiguration configuration)
+            {
+                // Register Configuration Options (Example)
+                // services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
 
-Problem: RestoreSelectedBackup uses PowerShell.Create().
-Solution: Ensure the System.Management.Automation NuGet package is installed in your WPF project.
-Summary of Actions:
+                // Register Services (Adjust lifetimes as needed: Singleton, Scoped, Transient)
+                services.AddSingleton<IBackupService, BackupService>(); // Example: Core service
+                services.AddSingleton<IConfigurationService, ConfigurationService>(); // Example
+                services.AddSingleton<IGeminiApiService, GeminiApiService>(); // Example AI Service
+                services.AddSingleton<INotificationService, EmailNotificationService>(); // Example
+                // Add other services...
 
-Fix DI: Choose Option A (ServiceLocator) or B (Standard DI) and modify the constructor accordingly. Ensure services (MainViewModel, IErrorHandlingService, potentially IConfiguration) are registered.
-Fix NavigateToPage Syntax: Remove the redundant/erroneous code block.
-Declare/Initialize Fields: Add declarations for _errorHandlingService, _backupDir, _rollbackFile, _backups. Initialize them correctly (DI, config, defaults).
-Add using Statements: Include all necessary namespaces.
-Install NuGet Packages: Add System.Management.Automation if not present.
-(Recommended) Refactor: Move backup/restore logic and UI elements to BackupsPage and its ViewModel. Move RelayCommand to its own file. Remove unused methods from MainWindow.xaml.cs.
-Start by addressing the DI mismatch and the syntax error in NavigateToPage, as these are definite build blockers. Then tackle the missing fields and using statements. Finally, consider the refactoring for better code structure.
+                // Register ViewModels
+                services.AddTransient<MainViewModel>();
+                services.AddTransient<BackupViewModel>();
+                services.AddTransient<SettingsViewModel>();
+                services.AddTransient<AiAssistantViewModel>();
+                // Add other ViewModels...
+
+                // Register Windows/Views (Usually Transient)
+                services.AddTransient<MainWindow>(); // Register the main window itself
+                // Register other windows/dialogs if they need DI
+                // services.AddTransient<SettingsWindow>();
+            }
+
+            protected override async void OnExit(ExitEventArgs e)
+            {
+                if (_host != null)
+                {
+                    await _host.StopAsync(); // Stop the host
+                    _host.Dispose();         // Dispose of the host resources
+                    _host = null;
+                }
+                base.OnExit(e);
+            }
+
+            // Implement IDisposable if you add other resources to App that need disposal
+            public void Dispose()
+            {
+                _host?.Dispose();
+                GC.SuppressFinalize(this);
+            }
+        }
+    }
+    ```
+
+3.  **Implement Constructor Injection:**
+    *   Go through your ViewModels, Services, and potentially Window code-behind files.
+    *   Modify their constructors to accept required dependencies as parameters instead of creating them internally (e.g., `new BackupService()`) or using a `ServiceLocator`.
+    *   Store the injected dependencies in private readonly fields.
+
+    *Example (ViewModel):*
+
+    ```csharp
+    // Before DI
+    // public class MainViewModel : ViewModelBase
+    // {
+    //     private readonly IBackupService _backupService;
+    //     public MainViewModel()
+    //     {
+    //         _backupService = new BackupService(); // Or ServiceLocator.GetService<IBackupService>();
+    //         // ...
+    //     }
+    // }
+
+    // After DI
+    public class MainViewModel : ViewModelBase
+    {
+        private readonly IBackupService _backupService;
+        private readonly ISettingsViewModel _settingsViewModel; // Example injecting another ViewModel
+
+        // Constructor now takes dependencies
+        public MainViewModel(IBackupService backupService, ISettingsViewModel settingsViewModel)
+        {
+            _backupService = backupService ?? throw new ArgumentNullException(nameof(backupService));
+            _settingsViewModel = settingsViewModel ?? throw new ArgumentNullException(nameof(settingsViewModel));
+            // ... rest of constructor logic ...
+        }
+        // ... ViewModel properties and commands ...
+    }
+    ```
+
+    *Example (MainWindow Code-Behind - if it needs direct dependencies):*
+
+    ```csharp
+    // Before DI
+    // public partial class MainWindow : Window
+    // {
+    //     public MainWindow()
+    //     {
+    //         InitializeComponent();
+    //         this.DataContext = new MainViewModel(); // Manually creating ViewModel
+    //     }
+    // }
+
+    // After DI
+    public partial class MainWindow : Window
+    {
+        // Inject the ViewModel (or other services if needed)
+        public MainWindow(MainViewModel viewModel) // Request the ViewModel via constructor
+        {
+            InitializeComponent();
+            this.DataContext = viewModel ?? throw new ArgumentNullException(nameof(viewModel)); // Assign injected ViewModel
+        }
+    }
+    ```
+
+4.  **Review Service Lifetimes:**
+    *   `AddSingleton()`: One instance for the entire application lifetime. Good for shared services like configuration, logging, core background tasks (BackupService might be a singleton).
+    *   `AddTransient()`: A new instance is created every time it's requested. Good for lightweight services, ViewModels, and Windows.
+    *   `AddScoped()`: One instance per scope (less common in basic WPF, more relevant in web apps or if you define custom scopes).
+    *   Choose the appropriate lifetime for each registered service based on its purpose and state management requirements.
+
+5.  **Remove Old Service Locator (If Applicable):**
+    *   If your project currently uses a static `ServiceLocator` class, systematically remove all references to it and rely solely on constructor injection provided by the DI container.
+
+**Outcome:**
+
+*   The application will now start by configuring the DI container.
+*   Dependencies (Services, ViewModels) will be automatically created and injected where requested via constructors.
+*   Components will be more decoupled and easier to unit test (you can mock dependencies).
+*   The application structure aligns with modern .NET practices.
+
+**Next steps after this implementation:**
+
+*   Thoroughly test the application to ensure all dependencies are resolved correctly and functionality remains intact.
+*   Proceed with other refactoring tasks outlined in `TODO.md`, such as Configuration Validation, which can now leverage the `IConfiguration` provided by the host builder.

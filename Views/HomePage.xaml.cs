@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media; // Added for VisualTreeHelper
 
 namespace SentinelPro.Views
 {

@@ -6,7 +6,7 @@ using SentinelPro.ViewModels;
 
 namespace SentinelPro
 {
-    public partial class SettingsWindow : Page
+    public partial class SettingsWindow : Window
     {
         private readonly SettingsViewModel _viewModel;
 
@@ -66,7 +66,10 @@ namespace SentinelPro
         {
             if (RulesListView.SelectedItem is WorkspaceRule selectedRule)
             {
-                await _viewModel.RemoveRuleAsync(selectedRule);
+                if (selectedRule != null)
+                {
+                    await _viewModel.RemoveRuleAsync(selectedRule);
+                }
             }
         }
 

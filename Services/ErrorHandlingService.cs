@@ -6,7 +6,7 @@ namespace SentinelPro.Services
     /// <summary>
     /// Provides a centralized way to handle and display error messages.
     /// </summary>
-    public class ErrorHandlingService
+    public class ErrorHandlingService : SentinelPro.Services.Interfaces.IErrorHandlingService
     {
         /// <summary>
         /// Displays an error message to the user.
@@ -36,6 +36,11 @@ namespace SentinelPro.Services
         public void ShowInfo(string message, string title = "Information")
         {
             MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public void HandleException(Exception ex)
+        {
+            ShowError($"An error occurred: {ex.Message}", "Exception");
         }
     }
 }

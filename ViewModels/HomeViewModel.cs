@@ -39,9 +39,14 @@ namespace SentinelPro.ViewModels
             try
             {
                 IsProcessing = true;
-                AIResponse = await _aiService.GetResponseAsync(query);
+                AIResponse = await _aiService.GetNaturalLanguageResponseAsync(query); // Corrected method call
             }
-            catch (Exception ex)
+            catch (AIServiceException aiEx) // Catch specific exception if available
+            {
+                AIResponse = $"AI Service Error: {aiEx.Message}";
+                // Optionally log the inner exception: _logger.LogError(aiEx.InnerException, "AI Service failed");
+            }
+            catch (Exception ex) // Catch general exceptions
             {
                 AIResponse = $"Error: {ex.Message}";
             }

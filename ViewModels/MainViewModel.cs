@@ -1,5 +1,7 @@
 using System.Windows.Input;
 using SentinelPro.Models;
+using SentinelPro.Services;
+using SentinelPro.Services.Interfaces;
 
 namespace SentinelPro.ViewModels
 {
@@ -8,6 +10,9 @@ namespace SentinelPro.ViewModels
         private object? _currentView;
         private readonly IAIService _aiService;
         private readonly ConfigurationModel _configuration;
+        private readonly BackupModel _backupModel;
+        private readonly INotificationService _notificationService;
+        private readonly ILoggingService _logService;
 
         public object? CurrentView
         {
@@ -19,10 +24,13 @@ namespace SentinelPro.ViewModels
         public ICommand NavigateBackupsCommand { get; }
         public ICommand NavigateSettingsCommand { get; }
 
-        public MainViewModel(IAIService aiService, ConfigurationModel configuration)
+        public MainViewModel(IAIService aiService, ConfigurationModel configuration, BackupModel backupModel, INotificationService notificationService, ILoggingService logService)
         {
             _aiService = aiService;
             _configuration = configuration;
+            _backupModel = backupModel;
+            _notificationService = notificationService;
+            _logService = logService;
 
             NavigateHomeCommand = new RelayCommand(_ => NavigateToHome());
             NavigateBackupsCommand = new RelayCommand(_ => NavigateToBackups());
@@ -39,7 +47,7 @@ namespace SentinelPro.ViewModels
 
         private void NavigateToBackups()
         {
-            CurrentView = new BackupsViewModel(_configuration);
+            CurrentView = new BackupsViewModel(_configuration, _backupModel, _notificationService, _logService); // Pass dependencies
         }
 
         private void NavigateToSettings()

@@ -1,8 +1,9 @@
 using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Controls;
 using System.IO;
 using System.Text.Json;
+using System.Windows;
+using System.Windows.Controls;
+using SentinelPro.Models; // Added for BackupItem
 
 namespace SentinelPro.Views
 {
@@ -31,7 +32,6 @@ namespace SentinelPro.Views
 
             BackupsList.ItemsSource = _backups;
             InitializeEventHandlers();
-            LoadBackups();
         }
 
         /// <summary>
@@ -41,6 +41,11 @@ namespace SentinelPro.Views
         {
             RestoreButton.Click += async (s, e) => await RestoreSelectedBackup();
             RefreshButton.Click += async (s, e) => await LoadBackups();
+        }
+
+        private async void BackupsPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            await LoadBackups();
         }
 
         /// <summary>
@@ -62,7 +67,7 @@ namespace SentinelPro.Views
                 var jsonContent = await File.ReadAllTextAsync(_rollbackFile);
                 var backupItems = JsonSerializer.Deserialize<List<BackupItem>>(jsonContent);
 
-                foreach (var item in backupItems)
+                foreach (var item in backupItems.Where(i => i != null))
                 {
                     _backups.Add(item);
                 }

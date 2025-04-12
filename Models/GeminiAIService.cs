@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.AIPlatform.V1;
 using Google.Cloud.AIPlatform.V1;
-using Google.Cloud.AIPlatform.V1.Models;
 
 namespace SentinelPro.Models
 {
